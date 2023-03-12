@@ -22,6 +22,7 @@
     <modules>
         <module>ms-common</module>
         <module>ms-dao</module>
+        <module>ms-model</module>
         <module>ms-service</module>
         <module>ms-web</module>
     </modules>
@@ -33,7 +34,11 @@
     </properties>
 
     <dependencies>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>
