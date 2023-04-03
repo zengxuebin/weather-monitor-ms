@@ -26,7 +26,7 @@ public class ApiResult extends HashMap<String, Object> {
     /**
      * 初始化result 使其表示一个空消息
      */
-    public ApiResult() {
+    private ApiResult() {
     }
 
     /**

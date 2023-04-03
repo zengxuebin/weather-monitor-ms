@@ -3,7 +3,6 @@ package com.ecjtu.common.exception;
 import com.ecjtu.common.constant.HttpStatus;
 import com.ecjtu.common.utils.ApiResult;
 import org.springframework.validation.BindException;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -71,8 +70,4 @@ public class GlobalExceptionHandler {
         return ApiResult.error(defaultMessage);
     }
 
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ApiResult handleHttpRequestMethodNotSupportException(HttpRequestMethodNotSupportedException e) {
-        return ApiResult.error(HttpStatus.BAD_METHOD, "Method Not Allowed");
-    }
 }

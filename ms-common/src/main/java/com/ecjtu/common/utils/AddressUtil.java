@@ -1,6 +1,10 @@
 package com.ecjtu.common.utils;
 
+import com.google.gson.Gson;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -18,12 +22,16 @@ public class AddressUtil {
     /**
      * 获取ip地址信息
      */
-    public static String getAddress() {
+    public static String getIpInfo(String key) {
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject(IP_URL, String.class);
         assert result != null;
         int prefixIndex = result.indexOf("{", result.indexOf("{") + 1);
         int suffixIndex = result.lastIndexOf("}", result.lastIndexOf("}") - 1);
-        return result.substring(prefixIndex, suffixIndex + 1);
+        String ipInfo = result.substring(prefixIndex, suffixIndex + 1);
+        HashMap<?, ?> map = new HashMap<>();
+        Gson gson = new Gson();
+        map = gson.fromJson(ipInfo, map.getClass());
+        return map.get(key).toString();
     }
 }

@@ -1,6 +1,5 @@
 package com.ecjtu.common.utils;
 
-import ch.qos.logback.core.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.HashOperations;
@@ -46,8 +45,8 @@ public class RedisCache {
      * @param timeUtil 时间颗粒度
      * @param <T> 缓存的类型
      */
-    public <T> void setCacheObject(final String key, final T value, final Integer timeout, final TimeUtil timeUtil) {
-        redisTemplate.opsForValue().set(key, value);
+    public <T> void setCacheObject(final String key, final T value, final Long timeout, final TimeUnit timeUtil) {
+        redisTemplate.opsForValue().set(key, value, timeout, timeUtil);
     }
 
     /**

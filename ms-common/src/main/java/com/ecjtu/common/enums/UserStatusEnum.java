@@ -8,8 +8,8 @@ package com.ecjtu.common.enums;
 public enum UserStatusEnum {
 
     OK("0", "正常"),
-    DISABLE("1", "停用"),
-    DELETED("2", "删除");
+    DELETED("1", "删除"),
+    DISABLE("2", "停用");
 
     private final String code;
     private final String info;

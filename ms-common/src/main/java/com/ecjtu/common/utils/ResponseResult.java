@@ -26,44 +26,47 @@ public class ResponseResult<T> implements Serializable {
     private String msg;
     private T data;
 
-    private static <T> ResponseResult<T> setResult(T data, int code, String msg) {
+    private ResponseResult() {
+    }
+
+    private static <T> ResponseResult<T> setResult(int code, String msg, T data) {
         ResponseResult<T> responseResult = new ResponseResult<>();
         responseResult.setCode(code);
-        responseResult.setData(data);
         responseResult.setMsg(msg);
+        responseResult.setData(data);
         return responseResult;
     }
 
     public static <T> ResponseResult<T> success() {
-        return setResult(null, SUCCESS, "操作成功");
+        return setResult(SUCCESS, "操作成功", null);
     }
 
     public static <T> ResponseResult<T> success(T data) {
-        return setResult(data, SUCCESS, "操作成功");
+        return setResult(SUCCESS, "操作成功", data);
     }
 
     public static <T> ResponseResult<T> success(T data, String msg) {
-        return setResult(data, SUCCESS, msg);
+        return setResult(SUCCESS, msg, data);
     }
 
     public static <T> ResponseResult<T> fail() {
-        return setResult(null, FAIL, "操作失败");
+        return setResult(FAIL, "操作失败", null);
     }
 
     public static <T> ResponseResult<T> fail(String msg) {
-        return setResult(null, FAIL, msg);
+        return setResult(FAIL, msg, null);
     }
 
     public static <T> ResponseResult<T> fail(T data) {
-        return setResult(data, FAIL, "操作失败");
+        return setResult(FAIL, "操作失败", data);
     }
 
     public static <T> ResponseResult<T> fail(T data, String msg) {
-        return setResult(data, FAIL, msg);
+        return setResult(FAIL, msg, data);
     }
 
     public static <T> ResponseResult<T> fail(int code, String msg) {
-        return setResult(null, code, msg);
+        return setResult(code, msg, null);
     }
 
     public static <T> Boolean isSuccess(ResponseResult<T> result) {

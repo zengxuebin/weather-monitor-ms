@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Data
-@ConfigurationProperties(prefix = "ecjtu")
+@ConfigurationProperties(prefix = "project")
 public class ProjectConfig {
 
     /**
@@ -27,26 +27,12 @@ public class ProjectConfig {
      */
     private String copyrightYear;
     /**
-     * 上传路径
+     * 路径
      */
     private static String profile;
 
     public static String getProfile() {
         return profile;
-    }
-
-    /**
-     * 获取导入上传路径
-     */
-    public static String getImportPath() {
-        return getProfile() + "/import";
-    }
-
-    /**
-     * 获取上传路径
-     */
-    public static String getUploadPath() {
-        return getProfile() + "/upload";
     }
 
     /**

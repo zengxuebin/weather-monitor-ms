@@ -18,14 +18,10 @@ public class UserConstants {
      * 异常状态
      */
     public static final String EXCEPTION = "1";
+
     /**
-     * 用户名长度限制
+     * 验证是否唯一标识
      */
-    public static final int USERNAME_MIN_LEN = 7;
-    public static final int USERNAME_MAX_LEN = 20;
-    /**
-     * 密码长度限制
-     */
-    public static final int PASSWORD_MIN_LEN = 8;
-    public static final int PASSWORD_MAX_LEN = 16;
+    public final static boolean UNIQUE = true;
+    public final static boolean NOT_UNIQUE = false;
 }

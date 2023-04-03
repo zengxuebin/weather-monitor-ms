@@ -22,7 +22,7 @@
     <modules>
         <module>ms-common</module>
         <module>ms-dao</module>
-        <module>ms-model</module>
+        <module>ms-domain</module>
         <module>ms-service</module>
         <module>ms-web</module>
     </modules>
@@ -34,6 +34,8 @@
         <http-client.version>5.2.1</http-client.version>
         <fastjson.version>2.0.26</fastjson.version>
         <kaptcha.version>2.3.2</kaptcha.version>
+        <java-jwt.version>4.3.0</java-jwt.version>
+        <jjwt.version>0.11.5</jjwt.version>
     </properties>
 
     <dependencies>
@@ -50,6 +52,20 @@
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2</artifactId>
             <version>${fastjson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2-extension-spring6</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis-puls.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

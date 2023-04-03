@@ -10,21 +10,17 @@ public class CacheConstants {
     /**
      * 登陆用户 redis key
      */
-    public static final String LOGIN_TOKEN_KEY = "login_token";
+    public static final String LOGIN_TOKEN_KEY = "login_token:";
     /**
      * 验证码 redis key
      */
-    public static final String CAPTCHA_CODE_KEY = "captcha_code";
+    public static final String CAPTCHA_CODE_KEY = "captcha_code:";
     /**
      * 字典管理 cache key
      */
-    public static final String SYS_DICT_KEY = "sys_dict";
+    public static final String SYS_DICT_KEY = "sys_dict:";
     /**
-     * 限流 redis key
+     * 参数管理 cache key
      */
-    public static final String RATE_LIMIT_KEY = "rate_limit";
-    /**
-     * 登陆账户密码错误次数 redis key
-     */
-    public static final String PWD_ERR_CNT_KEY = "pwd_err_cnt";
+    public static final String SYS_CONFIG_KEY = "sys_config:";
 }
