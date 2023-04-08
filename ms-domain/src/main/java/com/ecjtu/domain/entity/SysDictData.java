@@ -1,5 +1,6 @@
 package com.ecjtu.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.ecjtu.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,6 +17,7 @@ public class SysDictData extends BaseEntity {
     /**
      * 字典编码
      */
+    @TableId
     private Long dictCode;
     /**
      * 字典标签
@@ -32,6 +34,10 @@ public class SysDictData extends BaseEntity {
     /**
      * 字典排序
      */
-    private Long dictOrder;
+    private Long orderNum;
+    /**
+     * 状态
+     */
+    private String status;
 
 }

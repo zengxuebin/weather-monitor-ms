@@ -51,7 +51,6 @@ public class SysLoginService {
         validateCaptcha(username, code, uuid);
         // 用户认证
         Authentication authentication = null;
-        boolean flag;
 
         try {
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);

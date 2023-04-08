@@ -1,6 +1,6 @@
 package com.ecjtu.web.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ecjtu.common.enums.UserStatusEnum;
 import com.ecjtu.common.exception.CustomException;
 import com.ecjtu.domain.entity.SysUser;
@@ -31,8 +31,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("username", username);
+        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysUser::getUsername, username);
         SysUser user = userService.getOne(queryWrapper);
         if (user == null) {
             throw new CustomException("登陆用户：" + username + "不存在");

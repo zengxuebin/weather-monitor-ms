@@ -1,12 +1,11 @@
 package com.ecjtu.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ecjtu.common.constant.UserConstants;
 import com.ecjtu.domain.entity.SysUser;
 import com.ecjtu.mapper.SysUserMapper;
 import com.ecjtu.service.SysUserService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,11 +39,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public boolean checkUsernameUnique(SysUser user) {
-        Long userID = user.getUserId() == null ? -1L : user.getUserId();
-        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("username", user.getUsername());
+        long userID = user.getUserId() == null ? -1L : user.getUserId();
+        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysUser::getUsername, user.getUsername());
         SysUser sysUser = sysUserMapper.selectOne(queryWrapper);
-        if (sysUser != null && sysUser.getUserId().longValue() != userID.longValue()) {
+        if (sysUser != null && sysUser.getUserId() != userID) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;

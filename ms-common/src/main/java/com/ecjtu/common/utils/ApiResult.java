@@ -65,6 +65,18 @@ public class ApiResult extends HashMap<String, Object> {
     }
 
     /**
+     * 返回成功消息
+     *
+     * @param data 数据对象
+     * @return 成功消息结果集
+     */
+    public static ApiResult success(Object data) {
+        return new ApiResult(HttpStatus.SUCCESS, "操作成功", data);
+    }
+
+
+
+    /**
      * 返回成功消息 不含对象
      *
      * @param msg 消息内容

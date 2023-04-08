@@ -9,9 +9,6 @@ import java.util.Date;
  * @Author: ZengXueBin
  * @Date: 2023/4/2 21:47
  */
-//select menu_id, menu_name, parent_id, order_num, path, component,
-// `query`, is_frame, is_cache, menu_type, visible, status, ifnull(perms,'') as perms,
-// icon, create_time
 @Data
 public class SysMenuVO {
     private Long menuId;

@@ -70,6 +70,10 @@ public class SysUser extends BaseEntity {
      */
     private String loginIp;
     /**
+     * 最后登陆地点
+     */
+    private String loginLocation;
+    /**
      * 最后登陆时间
      */
     private Date loginTime;
