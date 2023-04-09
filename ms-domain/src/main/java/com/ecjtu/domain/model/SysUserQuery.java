@@ -7,17 +7,17 @@ import lombok.Setter;
 import java.util.Date;
 
 /**
- * @Description: 字典类型分页查询条件
+ * @Description: 用户分页查询条件
  * @Author: ZengXueBin
- * @Date: 2023/4/8 14:21
+ * @Date: 2023/4/9 16:34
  */
-@Setter
 @Getter
-public class SysDictTypeQuery {
+@Setter
+public class SysUserQuery {
 
-    private String dictName;
+    private String username;
+    private String phone;
     private String status;
-    private String dictType;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date beginTime;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")

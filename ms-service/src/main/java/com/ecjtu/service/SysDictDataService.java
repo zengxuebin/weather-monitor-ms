@@ -29,6 +29,7 @@ public interface SysDictDataService extends IService<SysDictData> {
     /**
      * 批量删除字典数据信息
      * @param dictCodeList 需要删除的字典id
+     * @return 结果
      */
-    void deleteDictByIds(List<Long> dictCodeList);
+    int deleteDictByIds(List<Long> dictCodeList);
 }

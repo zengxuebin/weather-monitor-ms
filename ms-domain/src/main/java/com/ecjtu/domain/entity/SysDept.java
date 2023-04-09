@@ -1,5 +1,6 @@
 package com.ecjtu.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.ecjtu.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,6 +16,7 @@ public class SysDept extends BaseEntity {
     /**
      * 部门id
      */
+    @TableId
     private Long deptId;
     /**
      * 部门名称

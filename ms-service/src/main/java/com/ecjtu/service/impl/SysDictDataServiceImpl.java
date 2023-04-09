@@ -26,6 +26,11 @@ public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper, SysDi
     @Autowired
     private RedisCache redisCache;
 
+    /**
+     * 新增保存字典数据信息
+     * @param dict 字典数据
+     * @return 结果
+     */
     @Transactional
     @Override
     public int insertDictData(SysDictData dict) {
@@ -37,6 +42,11 @@ public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper, SysDi
         return row;
     }
 
+    /**
+     * 修改保存字典数据信息
+     * @param dict 字典数据
+     * @return 结果
+     */
     @Transactional
     @Override
     public int updateDictData(SysDictData dict) {
@@ -48,17 +58,28 @@ public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper, SysDi
         return row;
     }
 
+    /**
+     * 批量删除字典数据信息
+     * @param dictCodeList 需要删除的字典id
+     * @return 结果
+     */
     @Transactional
     @Override
-    public void deleteDictByIds(List<Long> dictCodeList) {
+    public int deleteDictByIds(List<Long> dictCodeList) {
+        int row = 0;
         for (Long dictCode : dictCodeList) {
             SysDictData dict = dictDataMapper.selectById(dictCode);
-            dictDataMapper.deleteById(dictCode);
+            row += dictDataMapper.deleteById(dictCode);
             // 重新缓存在redis中 保证数据的一致性
             setRedis(dict);
         }
+        return row;
     }
 
+    /**
+     * 将字典存入redis
+     * @param dict 字典
+     */
     private void setRedis(SysDictData dict) {
         LambdaQueryWrapper<SysDictData> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(SysDictData::getDictType, dict.getDictType());

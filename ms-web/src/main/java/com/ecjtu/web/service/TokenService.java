@@ -128,7 +128,7 @@ public class TokenService {
      */
     private String getToken(HttpServletRequest request) {
         String token = request.getHeader(header);
-        if (StringUtils.isNotEmpty(token) && token.startsWith(Constants.TOKEN)) {
+        if (StringUtils.isNotBlank(token) && token.startsWith(Constants.TOKEN)) {
             token = token.replace(Constants.TOKEN, "");
         }
         return token;
@@ -157,7 +157,7 @@ public class TokenService {
     public LoginUser getLoginUser(HttpServletRequest request) {
         // 获取请求携带的令牌
         String token = getToken(request);
-        if (StringUtils.isNotEmpty(token)) {
+        if (StringUtils.isNotBlank(token)) {
             Claims claims = parseToken(token);
             String uuid = (String) claims.get(Constants.LOGIN_USER_KEY);
             String userKey = getTokenKey(uuid);
@@ -181,7 +181,7 @@ public class TokenService {
      * @param loginUser 用户信息
      */
     public void setLoginUser(LoginUser loginUser) {
-        if (loginUser != null && StringUtils.isNotEmpty(loginUser.getToken())) {
+        if (loginUser != null && StringUtils.isNotBlank(loginUser.getToken())) {
             refreshToken(loginUser);
         }
     }
@@ -191,7 +191,7 @@ public class TokenService {
      * @param token 令牌
      */
     public void delLoginUser(String token) {
-        if (StringUtils.isNotEmpty(token)) {
+        if (StringUtils.isNotBlank(token)) {
             String userKey = getTokenKey(token);
             redisCache.deleteObject(userKey);
         }

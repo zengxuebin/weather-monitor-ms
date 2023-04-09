@@ -29,6 +29,11 @@ public class SysDictTypeController {
     @Autowired
     private SysDictTypeService dictTypeService;
 
+    /**
+     * 分页查询字典
+     * @param query 条件
+     * @return 分页结果
+     */
     @GetMapping("/list")
     public ApiResult queryPageList(@RequestBody PageInfo<SysDictTypeQuery> query) {
         LambdaQueryWrapper<SysDictType> wrapper = new LambdaQueryWrapper<>();
@@ -43,10 +48,10 @@ public class SysDictTypeController {
             if (StringUtils.isNotBlank(queryEntity.getDictType())) {
                 wrapper.eq(SysDictType::getDictType, queryEntity.getDictType());
             }
-            if (StringUtils.isNotBlank(queryEntity.getBeginTime())) {
+            if (ObjectUtils.isNotEmpty(queryEntity.getBeginTime())) {
                 wrapper.ge(SysDictType::getCreateTime, queryEntity.getBeginTime());
             }
-            if (StringUtils.isNotBlank(queryEntity.getEndTime())) {
+            if (ObjectUtils.isNotEmpty(queryEntity.getEndTime())) {
                 wrapper.le(SysDictType::getCreateTime, queryEntity.getEndTime());
             }
         }
@@ -71,16 +76,10 @@ public class SysDictTypeController {
      */
     @PostMapping("/save")
     public ApiResult saveDictType(@Validated @RequestBody SysDictType dictType) {
-        LambdaQueryWrapper<SysDictType> wrapper = new LambdaQueryWrapper<>();
 
         // 判断字典类型是否唯一
-        if (ObjectUtils.isNotEmpty(dictType)) {
-            if (StringUtils.isNotBlank(dictType.getDictType())) {
-                wrapper.eq(SysDictType::getDictType, dictType.getDictType());
-            }
-        }
-        if (ObjectUtils.isNotEmpty(dictTypeService.getOne(wrapper))) {
-            return ApiResult.error("新增字典'" + dictType.getDictName() + "'失败，字典类型已存在");
+        if (!dictTypeService.checkDictTypeUnique(dictType)) {
+            return ApiResult.warn("新增字典'" + dictType.getDictName() + "'失败，字典类型已存在");
         }
 
         String username = SecurityUtil.getLoginUser().getUsername();
@@ -96,17 +95,12 @@ public class SysDictTypeController {
      */
     @PostMapping("/edit")
     public ApiResult editDictType(@Validated @RequestBody SysDictType dictType) {
-        LambdaQueryWrapper<SysDictType> wrapper = new LambdaQueryWrapper<>();
 
         // 判断字典类型是否唯一
-        if (ObjectUtils.isNotEmpty(dictType)) {
-            if (StringUtils.isNotBlank(dictType.getDictType())) {
-                wrapper.eq(SysDictType::getDictType, dictType.getDictType());
-            }
+        if (!dictTypeService.checkDictTypeUnique(dictType)) {
+            return ApiResult.warn("修改字典'" + dictType.getDictName() + "'失败，字典类型已存在");
         }
-        if (ObjectUtils.isNotEmpty(dictTypeService.getOne(wrapper))) {
-            return ApiResult.error("修改字典'" + dictType.getDictName() + "'失败，字典类型已存在");
-        }
+
         String username = SecurityUtil.getLoginUser().getUsername();
         dictType.setCreateBy(username);
         dictTypeService.updateDictType(dictType);

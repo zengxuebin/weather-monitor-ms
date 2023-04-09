@@ -1,5 +1,6 @@
 package com.ecjtu.domain.VO;
 
+import com.alibaba.fastjson2.annotation.JSONField;
 import lombok.Data;
 
 import java.util.Date;
@@ -14,10 +15,11 @@ public class SysRoleVO {
 
     private String roleId;
     private String roleName;
-    private String rolePerm;
+    private String roleKey;
     private Integer orderNum;
     private String status;
     private String delFlag;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     private String remark;
 }

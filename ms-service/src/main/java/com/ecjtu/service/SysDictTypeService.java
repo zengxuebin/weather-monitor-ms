@@ -46,4 +46,11 @@ public interface SysDictTypeService extends IService<SysDictType> {
      */
     void resetDictCache();
 
+    /**
+     * 校验字典类型是否唯一
+     *
+     * @param dictType 字典类型
+     * @return 结果
+     */
+    boolean checkDictTypeUnique(SysDictType dictType);
 }

@@ -27,10 +27,10 @@ public class SysRole extends BaseEntity {
      */
     private String roleName;
     /**
-     * 角色权限
+     * 角色字符串
      *
      */
-    private String rolePerm;
+    private String roleKey;
     /**
      * 角色状态 0正常 1停用
      */

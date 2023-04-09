@@ -45,10 +45,10 @@ public class SysDictDataController {
         LambdaQueryWrapper<SysDictData> wrapper = new LambdaQueryWrapper<>();
         SysDictDataQuery queryEntity = query.getEntity();
         if (ObjectUtils.isNotEmpty(queryEntity)) {
-            if (StringUtils.isNotEmpty(queryEntity.getDictType())) {
+            if (StringUtils.isNotBlank(queryEntity.getDictType())) {
                 wrapper.eq(SysDictData::getDictType, queryEntity.getDictType());
             }
-            if (StringUtils.isNotEmpty(queryEntity.getDictLabel())) {
+            if (StringUtils.isNotBlank(queryEntity.getDictLabel())) {
                 wrapper.eq(SysDictData::getDictLabel, queryEntity.getDictLabel());
             }
         }
@@ -91,8 +91,9 @@ public class SysDictDataController {
     public ApiResult saveDict(@Validated @RequestBody SysDictData dict) {
         String username = SecurityUtil.getLoginUser().getUsername();
         dict.setCreateBy(username);
-        dictDataService.insertDictData(dict);
-        return ApiResult.success("创建成功");
+        int row = dictDataService.insertDictData(dict);
+
+        return row > 0 ? ApiResult.success("创建成功") : ApiResult.error("创建失败");
     }
 
     /**
@@ -104,7 +105,8 @@ public class SysDictDataController {
     public ApiResult editDict(@Validated @RequestBody SysDictData dict) {
         String username = SecurityUtil.getLoginUser().getUsername();
         dict.setUpdateBy(username);
-        return ApiResult.success(dictDataService.updateDictData(dict));
+        int row = dictDataService.updateDictData(dict);
+        return row > 0 ? ApiResult.success("修改成功") : ApiResult.error("修改失败");
     }
 
     /**
@@ -114,7 +116,7 @@ public class SysDictDataController {
      */
     @PostMapping("/del")
     public ApiResult removeDict(List<Long> dictCodeList) {
-        dictDataService.deleteDictByIds(dictCodeList);
-        return ApiResult.success("删除成功");
+        int row = dictDataService.deleteDictByIds(dictCodeList);
+        return row == dictCodeList.size() ? ApiResult.success("删除成功") : ApiResult.error("删除失败");
     }
 }

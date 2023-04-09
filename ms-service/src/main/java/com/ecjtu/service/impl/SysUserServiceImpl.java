@@ -9,8 +9,6 @@ import com.ecjtu.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
  * @Description: 用户 业务层实现
  * @Author: ZengXueBin
@@ -22,21 +20,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Autowired
     private SysUserMapper sysUserMapper;
 
-    @Override
-    public List<SysUser> selectUserList(SysUser user) {
-        return null;
-    }
-
-    @Override
-    public List<SysUser> selectAllocateList(SysUser user) {
-        return null;
-    }
-
-    @Override
-    public List<SysUser> selectUnallocateList(SysUser user) {
-        return null;
-    }
-
+    /**
+     * 检验用户名是否唯一
+     * @param user 用户
+     * @return true=唯一 false=不唯一
+     */
     @Override
     public boolean checkUsernameUnique(SysUser user) {
         long userID = user.getUserId() == null ? -1L : user.getUserId();
@@ -49,53 +37,40 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return UserConstants.UNIQUE;
     }
 
+    /**
+     * 检验手机号是否唯一
+     *
+     * @param user 用户
+     * @return 结果
+     */
     @Override
     public boolean checkPhoneUnique(SysUser user) {
-        return false;
+        long userId = user.getUserId() == null ? -1L : user.getUserId();
+        LambdaQueryWrapper<SysUser> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysUser::getPhone, user.getPhone());
+        SysUser sysUser = sysUserMapper.selectOne(wrapper);
+        if (sysUser != null && sysUser.getUserId() != userId) {
+            return UserConstants.NOT_UNIQUE;
+        }
+        return UserConstants.UNIQUE;
     }
 
+    /**
+     * 检验验证码是否唯一
+     *
+     * @param user 用户
+     * @return 结果
+     */
     @Override
     public boolean checkEmailUnique(SysUser user) {
-        return false;
+        long userId = user.getUserId() == null ? -1L : user.getUserId();
+        LambdaQueryWrapper<SysUser> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysUser::getEmail, user.getEmail());
+        SysUser sysUser = sysUserMapper.selectOne(wrapper);
+        if (sysUser != null && sysUser.getUserId() != userId) {
+            return UserConstants.NOT_UNIQUE;
+        }
+        return UserConstants.UNIQUE;
     }
 
-    @Override
-    public int insertUser(SysUser user) {
-        return 0;
-    }
-
-    @Override
-    public boolean registerUser(SysUser user) {
-        return sysUserMapper.insert(user) > 0;
-    }
-
-    @Override
-    public int updateUser(SysUser user) {
-        return 0;
-    }
-
-    @Override
-    public void authorizeUser(Long userId, Long[] roleIds) {
-
-    }
-
-    @Override
-    public boolean updateUserAvatar(String username, String avatar) {
-        return false;
-    }
-
-    @Override
-    public int resetPassword(SysUser user) {
-        return 0;
-    }
-
-    @Override
-    public int deleteUserById(Long userId) {
-        return 0;
-    }
-
-    @Override
-    public int deleteUserByIds(Long[] userIds) {
-        return 0;
-    }
 }

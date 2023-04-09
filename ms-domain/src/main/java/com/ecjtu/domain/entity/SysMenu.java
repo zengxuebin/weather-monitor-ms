@@ -1,5 +1,6 @@
 package com.ecjtu.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.ecjtu.domain.BaseEntity;
 import lombok.Data;
@@ -34,10 +35,6 @@ public class SysMenu extends BaseEntity {
      */
     private Long parentId;
     /**
-     * 父菜单名称
-     */
-    private String parentName;
-    /**
      * 路由地址
      */
     private String path;
@@ -62,11 +59,12 @@ public class SysMenu extends BaseEntity {
      */
     private String icon;
     /**
-     * 子菜单
-     */
-    private List<SysMenu> children = new ArrayList<>();
-    /**
      * 显示顺序
      */
     private Integer orderNum;
+    /**
+     * 子菜单
+     */
+    @TableField(exist = false)
+    private List<SysMenu> children = new ArrayList<>();
 }

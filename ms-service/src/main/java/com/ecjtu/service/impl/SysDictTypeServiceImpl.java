@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ecjtu.common.constant.CacheConstants;
+import com.ecjtu.common.constant.UserConstants;
 import com.ecjtu.common.exception.CustomException;
 import com.ecjtu.common.utils.RedisCache;
 import com.ecjtu.common.utils.RedisKeyUtil;
@@ -49,6 +50,11 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
         resetDictCache();
     }
 
+    /**
+     * 根据字典类型查询数据
+     * @param dictType 字典类型
+     * @return 字典数据集合
+     */
     @Override
     public List<SysDictData> selectDictDataByDictType(String dictType) {
         JSONArray arrayCache = redisCache.getCacheObject(RedisKeyUtil.getDictKey(dictType));
@@ -73,6 +79,11 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
         return null;
     }
 
+    /**
+     * 新增保存字典类型
+     *
+     * @param dictType 字典类型
+     */
     @Transactional
     @Override
     public void insertDictType(SysDictType dictType) {
@@ -82,6 +93,11 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
         }
     }
 
+    /**
+     * 修改字典类型
+     *
+     * @param dictType 字典类型
+     */
     @Transactional
     @Override
     public void updateDictType(SysDictType dictType) {
@@ -101,6 +117,11 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
         }
     }
 
+    /**
+     * 删除字典类型
+     *
+     * @param dictIds 类型id
+     */
     @Override
     public void deleteDictTypeByIds(List<Long> dictIds) {
         for (Long dictId : dictIds) {
@@ -118,6 +139,9 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
         }
     }
 
+    /**
+     * 重置字段缓存数据
+     */
     @Override
     public void resetDictCache() {
         // 清空字典缓存数据
@@ -137,5 +161,26 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
                     .stream().sorted(Comparator.comparing(SysDictData::getOrderNum))
                     .collect(Collectors.toList()));
         }
+    }
+
+    /**
+     * 校验字典类型是否唯一
+     *
+     * @param dictType 字典类型
+     * @return 结果
+     */
+    @Override
+    public boolean checkDictTypeUnique(SysDictType dictType) {
+        long dictId = dictType.getDictId() == null ? -1L : dictType.getDictId();
+        LambdaQueryWrapper<SysDictType> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysDictType::getDictType, dictType.getDictType());
+
+        SysDictType sysDictType = dictTypeMapper.selectOne(wrapper);
+
+        if (sysDictType != null && sysDictType.getDictId() != dictId) {
+            return UserConstants.NOT_UNIQUE;
+        }
+
+        return UserConstants.UNIQUE;
     }
 }

@@ -83,8 +83,8 @@ public class PermissionService {
             return false;
         }
         for (SysRole sysRole : loginUser.getUser().getRoles()) {
-            String rolePerm = sysRole.getRolePerm();
-            if (ADMIN_PERMISSION.equals(rolePerm) || rolePerm.equals(StringUtils.trim(role))) {
+            String roleKey = sysRole.getRoleKey();
+            if (ADMIN_PERMISSION.equals(roleKey) || roleKey.equals(StringUtils.trim(role))) {
                 return true;
             }
         }

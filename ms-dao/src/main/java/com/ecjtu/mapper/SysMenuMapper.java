@@ -16,4 +16,6 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
     List<String> selectMenuPermsByUserId(Long userId);
 
     List<String> selectMenuPermsByRoleId(Long roleId);
+
+    List<SysMenu> selectMenuTreeByUserId(Long userId);
 }

@@ -6,7 +6,7 @@
 <mapper namespace="com.ecjtu.mapper.SysRoleMapper">
 
     <sql id="selectRoleVO">
-        select distinct r.role_id, r.role_name, r.role_perm, r.order_num,
+        select distinct r.role_id, r.role_name, r.role_key, r.order_num,
                         r.status, r.del_flag, r.create_time, r.remark
         from sys_role r
         left join sys_user_role ur on ur.role_id = r.role_id
