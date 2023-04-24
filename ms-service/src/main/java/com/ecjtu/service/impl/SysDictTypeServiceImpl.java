@@ -4,7 +4,6 @@ import com.alibaba.fastjson2.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ecjtu.common.constant.CacheConstants;
 import com.ecjtu.common.constant.UserConstants;
 import com.ecjtu.common.exception.CustomException;
 import com.ecjtu.common.utils.RedisCache;
@@ -145,7 +144,7 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
     @Override
     public void resetDictCache() {
         // 清空字典缓存数据
-        Collection<String> keys = redisCache.keys(CacheConstants.SYS_DICT_KEY + "*");
+        Collection<String> keys = redisCache.keys(RedisKeyUtil.getDictKey("*"));
         redisCache.deleteObject(keys);
 
         SysDictData dictData = new SysDictData();

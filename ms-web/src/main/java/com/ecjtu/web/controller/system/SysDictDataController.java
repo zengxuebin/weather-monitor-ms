@@ -1,4 +1,4 @@
-package com.ecjtu.web.controller.common;
+package com.ecjtu.web.controller.system;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -63,7 +63,7 @@ public class SysDictDataController {
      * @param dictCode 字典编码
      * @return 字典
      */
-    @GetMapping("/{dictCode}")
+    @GetMapping("/detail/{dictCode}")
     public ApiResult getInfoByDictCode(@PathVariable String dictCode) {
         return ApiResult.success(dictDataService.getById(dictCode));
     }

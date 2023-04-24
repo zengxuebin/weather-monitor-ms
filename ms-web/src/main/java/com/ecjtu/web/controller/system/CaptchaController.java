@@ -1,9 +1,9 @@
-package com.ecjtu.web.controller.common;
+package com.ecjtu.web.controller.system;
 
-import com.ecjtu.common.constant.CacheConstants;
 import com.ecjtu.common.constant.Constants;
 import com.ecjtu.common.utils.ApiResult;
 import com.ecjtu.common.utils.RedisCache;
+import com.ecjtu.common.utils.RedisKeyUtil;
 import com.google.code.kaptcha.Producer;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +43,7 @@ public class CaptchaController {
 
         // 保存验证码信息
         String uuid = UUID.randomUUID().toString().replace("-", "");
-        String verifyKey = CacheConstants.CAPTCHA_CODE_KEY + uuid;
+        String verifyKey = RedisKeyUtil.getCaptchaKey(uuid);
 
         String capStr = null;
         String code = null;

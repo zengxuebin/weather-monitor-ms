@@ -27,11 +27,11 @@ public class CaptchaConfig {
         // 是否有边框 默认为true 我们可以自己设置yes，no
         properties.setProperty(KAPTCHA_BORDER, "yes");
         // 验证码文本字符颜色 默认为Color.BLACK
-        properties.setProperty(KAPTCHA_TEXTPRODUCER_FONT_COLOR, "blue");
+        properties.setProperty(KAPTCHA_TEXTPRODUCER_FONT_COLOR, "black");
         // 验证码图片宽度 默认为200
-        properties.setProperty(KAPTCHA_IMAGE_WIDTH, "160");
+        properties.setProperty(KAPTCHA_IMAGE_WIDTH, "140");
         // 验证码图片高度 默认为50
-        properties.setProperty(KAPTCHA_IMAGE_HEIGHT, "60");
+        properties.setProperty(KAPTCHA_IMAGE_HEIGHT, "40");
         // 验证码文本字符大小 默认为40
         properties.setProperty(KAPTCHA_TEXTPRODUCER_FONT_SIZE, "38");
         // KAPTCHA_SESSION_KEY

@@ -1,8 +1,7 @@
 package com.ecjtu.domain.VO;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * @Description: 路由显示信息
@@ -10,8 +9,7 @@ import lombok.Setter;
  * @Date: 2023/4/9 08:29
  */
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 public class MetaVO {
     /**
      * 路由在侧边栏的标题

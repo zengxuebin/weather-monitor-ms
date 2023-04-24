@@ -1,5 +1,6 @@
 package com.ecjtu.common.exception;
 
+import com.ecjtu.common.constant.HttpStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +22,7 @@ public class CustomException extends RuntimeException {
     }
 
     public CustomException(String message) {
+        this.code = HttpStatus.ERROR;
         this.message = message;
     }
 }

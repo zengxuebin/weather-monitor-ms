@@ -99,23 +99,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             router.setName(menu.getMenuName());
             router.setPath(menu.getPath());
             router.setHidden("1".equals(menu.getVisible()));
+            router.setComponent(menu.getComponent());
             router.setMeta(new MetaVO(menu.getMenuName(), menu.getIcon()));
 
             // 子菜单
             List<SysMenu> menuChildren = menu.getChildren();
             if (ObjectUtils.isNotEmpty(menuChildren) && "0".equals(menu.getMenuType())) {   // 一级菜单
-                router.setRedirect("noRedirect");
                 router.setChildren(buildMenus(menuChildren));
-            } else if (isMenuFrame(menu)) {     // 一级菜单无子菜单
-                router.setMeta(null);
-                List<RouterVO> childrenList = new ArrayList<>();
-                RouterVO children = new RouterVO();
-                children.setPath(menu.getPath());
-                children.setName(menu.getPath());
-                children.setComponent(menu.getComponent());
-                children.setMeta(new MetaVO(menu.getMenuName(), menu.getIcon()));
-                childrenList.add(children);
-                router.setChildren(childrenList);
             }
             routers.add(router);
         }

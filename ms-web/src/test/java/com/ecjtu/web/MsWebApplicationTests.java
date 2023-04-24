@@ -1,6 +1,7 @@
 package com.ecjtu.web;
 
-import org.apache.commons.lang3.StringUtils;
+import com.ecjtu.web.security.SecretUtil;
+import com.ecjtu.common.utils.SecurityUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,11 +13,14 @@ class MsWebApplicationTests {
 
     @Test
     public void test() {
-        System.out.println(StringUtils.isNotEmpty(""));
-        System.out.println(StringUtils.isNotBlank(""));
-        System.out.println(StringUtils.isNotBlank(null));
-        System.out.println(StringUtils.isNotEmpty(null));
+        System.out.println(SecurityUtil.encryptPassword("123456"));
+        System.out.println(SecurityUtil.matchesPassword("123456","$2a$10$Nfz1BOqt4N8/zWz.bknh/u9k5.zQjr0kcXQ8YA5z1wZzajyCV99.6"));
     }
 
 
+    @Test
+    public void testPwd() {
+        String encrypt = SecretUtil.encrypt("123456");
+        System.out.println(SecretUtil.desEncrypt(encrypt));
+    }
 }

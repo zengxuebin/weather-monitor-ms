@@ -26,7 +26,7 @@ public class SysUser extends BaseEntity {
     @TableId
     private Long userId;
     /**
-     * 部门id
+     * 部门
      */
     private Long deptId;
     /**
@@ -73,6 +73,10 @@ public class SysUser extends BaseEntity {
      * 最后登陆地点
      */
     private String loginLocation;
+    /**
+     * 是否在线(0在线 1离线)
+     */
+    private String online;
     /**
      * 最后登陆时间
      */

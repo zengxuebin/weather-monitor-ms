@@ -118,12 +118,12 @@ public class LoginUser implements UserDetails, Serializable {
     }
 
     /**
-     * 是否禁用
-     * @return true=禁用 false=启用
+     * 是否启用
+     * @return true=启用 false=禁用
      */
     @JSONField(serialize = false)
     @Override
     public boolean isEnabled() {
-        return false;
+        return "0".equals(user.getStatus());
     }
 }

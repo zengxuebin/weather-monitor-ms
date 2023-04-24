@@ -1,4 +1,4 @@
-package com.ecjtu.web.controller.common;
+package com.ecjtu.web.controller.system;
 
 import com.ecjtu.common.config.ProjectConfig;
 import com.ecjtu.common.utils.ApiResult;

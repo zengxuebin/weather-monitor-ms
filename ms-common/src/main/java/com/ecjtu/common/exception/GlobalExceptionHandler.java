@@ -41,7 +41,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ApiResult handleException(Exception e) {
         e.printStackTrace();
-        System.out.println("ddd");
         return ApiResult.error(e.getMessage());
     }
 

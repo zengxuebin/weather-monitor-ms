@@ -1,4 +1,4 @@
-package com.ecjtu.web.controller.common;
+package com.ecjtu.web.controller.system;
 
 import com.ecjtu.common.utils.ApiResult;
 import com.ecjtu.common.utils.SecurityUtil;

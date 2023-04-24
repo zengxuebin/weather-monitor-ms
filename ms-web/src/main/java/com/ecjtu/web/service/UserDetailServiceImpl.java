@@ -31,9 +31,10 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SysUser::getUsername, username);
-        SysUser user = userService.getOne(queryWrapper);
+        LambdaQueryWrapper<SysUser> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        userLambdaQueryWrapper.eq(SysUser::getUsername, username);
+        SysUser user = userService.getOne(userLambdaQueryWrapper);
+
         if (user == null) {
             throw new CustomException("登陆用户：" + username + "不存在");
         } else if (UserStatusEnum.DELETED.getCode().equals(user.getDelFlag())) {

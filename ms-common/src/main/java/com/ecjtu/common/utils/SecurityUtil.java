@@ -21,8 +21,7 @@ public class SecurityUtil {
      * 获取Authentication
      * @return 身份认证
      */
-    public static Authentication getAuthentication()
-    {
+    public static Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 

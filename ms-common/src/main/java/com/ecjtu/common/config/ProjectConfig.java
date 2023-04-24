@@ -38,8 +38,8 @@ public class ProjectConfig {
     /**
      * 获取下载路径
      */
-    public static String getDownloadPath() {
-        return getProfile() + "/download/";
+    public static String getDownPath() {
+        return getProfile() + "/down/";
     }
 
     /**

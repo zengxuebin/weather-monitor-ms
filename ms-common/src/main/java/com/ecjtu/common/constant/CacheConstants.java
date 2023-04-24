@@ -19,8 +19,4 @@ public class CacheConstants {
      * 字典管理 cache key
      */
     public static final String SYS_DICT_KEY = "sys_dict:";
-    /**
-     * 参数管理 cache key
-     */
-    public static final String SYS_CONFIG_KEY = "sys_config:";
 }

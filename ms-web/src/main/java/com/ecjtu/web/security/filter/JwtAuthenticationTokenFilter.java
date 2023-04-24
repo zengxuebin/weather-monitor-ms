@@ -33,7 +33,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         LoginUser loginUser = tokenService.getLoginUser(request);
 
-        if (loginUser != null && SecurityUtil.getAuthentication() != null) {
+        if (loginUser != null && SecurityUtil.getAuthentication() == null) {
             tokenService.verifyToken(loginUser);
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());

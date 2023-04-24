@@ -1,8 +1,8 @@
 package com.ecjtu.web.service;
 
-import com.ecjtu.common.constant.CacheConstants;
 import com.ecjtu.common.constant.Constants;
 import com.ecjtu.common.utils.RedisCache;
+import com.ecjtu.common.utils.RedisKeyUtil;
 import com.ecjtu.domain.model.LoginUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
@@ -59,15 +59,6 @@ public class TokenService {
     }
 
     /**
-     * redis key
-     * @param uuid uuid
-     * @return token在redis中的key
-     */
-    private String getTokenKey(String uuid) {
-        return CacheConstants.LOGIN_TOKEN_KEY + uuid;
-    }
-
-    /**
      * 创建令牌
      * @param loginUser 用户信息
      * @return 令牌
@@ -105,7 +96,7 @@ public class TokenService {
         // 设置当前登陆时间
         loginUser.setLoginTime(System.currentTimeMillis());
         loginUser.setExpireTime(loginUser.getLoginTime() + expire);
-        String userKey = getTokenKey(loginUser.getToken());
+        String userKey = RedisKeyUtil.getTokenKey(loginUser.getToken());
         redisCache.setCacheObject(userKey, loginUser, expire, TimeUnit.MILLISECONDS);
     }
 
@@ -128,8 +119,8 @@ public class TokenService {
      */
     private String getToken(HttpServletRequest request) {
         String token = request.getHeader(header);
-        if (StringUtils.isNotBlank(token) && token.startsWith(Constants.TOKEN)) {
-            token = token.replace(Constants.TOKEN, "");
+        if (StringUtils.isNotBlank(token) && token.startsWith(Constants.TOKEN_PREFIX)) {
+            token = token.replace(Constants.TOKEN_PREFIX, "");
         }
         return token;
     }
@@ -160,7 +151,7 @@ public class TokenService {
         if (StringUtils.isNotBlank(token)) {
             Claims claims = parseToken(token);
             String uuid = (String) claims.get(Constants.LOGIN_USER_KEY);
-            String userKey = getTokenKey(uuid);
+            String userKey = RedisKeyUtil.getTokenKey(uuid);
             return redisCache.getCacheObject(userKey);
         }
         return null;
@@ -192,7 +183,7 @@ public class TokenService {
      */
     public void delLoginUser(String token) {
         if (StringUtils.isNotBlank(token)) {
-            String userKey = getTokenKey(token);
+            String userKey = RedisKeyUtil.getTokenKey(token);
             redisCache.deleteObject(userKey);
         }
     }

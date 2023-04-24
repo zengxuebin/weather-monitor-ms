@@ -1,4 +1,4 @@
-package com.ecjtu.web.controller.common;
+package com.ecjtu.web.controller.system;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;

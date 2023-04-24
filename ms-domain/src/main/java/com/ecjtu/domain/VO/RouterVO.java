@@ -1,7 +1,6 @@
 package com.ecjtu.domain.VO;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.List;
 
@@ -10,8 +9,7 @@ import java.util.List;
  * @Author: ZengXueBin
  * @Date: 2023/4/8 23:11
  */
-@Getter
-@Setter
+@Data
 public class RouterVO {
 
     /**
@@ -26,10 +24,6 @@ public class RouterVO {
      * 是否隐藏路由 true时路由不会在侧边栏出现
      */
     private boolean hidden;
-    /**
-     * 重定向地址 当设置noRedirect的时候该路由在面包屑导航中不可被点击
-     */
-    private String redirect;
     /**
      * 组件地址
      */
