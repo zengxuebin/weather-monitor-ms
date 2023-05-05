@@ -1,6 +1,7 @@
 package com.ecjtu.domain.model;
 
 import com.alibaba.fastjson2.annotation.JSONField;
+import com.ecjtu.domain.entity.SysDept;
 import com.ecjtu.domain.entity.SysUser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,7 +28,7 @@ public class LoginUser implements UserDetails, Serializable {
     /**
      * 部门id
      */
-    private Long deptId;
+    private SysDept dept;
     /**
      * 用户唯一标识
      */
@@ -64,9 +65,9 @@ public class LoginUser implements UserDetails, Serializable {
         this.permissions = permissions;
     }
 
-    public LoginUser(Long userId, Long deptId, SysUser user, Set<String> permissions) {
+    public LoginUser(Long userId, SysDept dept, SysUser user, Set<String> permissions) {
         this.userId = userId;
-        this.deptId = deptId;
+        this.dept = dept;
         this.user = user;
         this.permissions = permissions;
     }

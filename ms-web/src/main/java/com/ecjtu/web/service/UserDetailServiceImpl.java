@@ -3,8 +3,10 @@ package com.ecjtu.web.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ecjtu.common.enums.UserStatusEnum;
 import com.ecjtu.common.exception.CustomException;
+import com.ecjtu.domain.entity.SysDept;
 import com.ecjtu.domain.entity.SysUser;
 import com.ecjtu.domain.model.LoginUser;
+import com.ecjtu.service.SysDeptService;
 import com.ecjtu.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,6 +31,9 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Autowired
     private SysPermissionService permissionService;
 
+    @Autowired
+    private SysDeptService deptService;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         LambdaQueryWrapper<SysUser> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
@@ -43,8 +48,10 @@ public class UserDetailServiceImpl implements UserDetailsService {
             throw new CustomException("对不起，您的账号：" + username + "已停用");
         }
 
+        SysDept dept = deptService.getById(user.getDeptId());
+
         passwordService.validate(user);
-        return new LoginUser(user.getUserId(), user.getDeptId(), user, permissionService.getMenuPermission(user));
+        return new LoginUser(user.getUserId(), dept, user, permissionService.getMenuPermission(user));
     }
 
 }

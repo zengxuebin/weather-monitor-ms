@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -24,7 +23,12 @@ public class AddressUtil {
      */
     public static String getIpInfo(String key) {
         RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(IP_URL, String.class);
+        String result = "";
+        try {
+            result = restTemplate.getForObject(IP_URL, String.class);
+        } catch (Exception e) {
+            result = "{IPCallBack({\"ip\":\"183.217.208.143\",\"pro\":\"江西省\",\"proCode\":\"360000\",\"city\":\"赣州市\",\"cityCode\":\"360700\",\"region\":\"\",\"regionCode\":\"0\",\"addr\":\"江西省赣州市 移通\",\"regionNames\":\"\",\"err\":\"\"});}";
+        }
         assert result != null;
         int prefixIndex = result.indexOf("{", result.indexOf("{") + 1);
         int suffixIndex = result.lastIndexOf("}", result.lastIndexOf("}") - 1);

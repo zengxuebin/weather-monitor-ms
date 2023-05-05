@@ -55,7 +55,7 @@ public class SecurityUtil {
      */
     public static Long getDeptId() {
         try {
-            return getLoginUser().getDeptId();
+            return getLoginUser().getDept().getDeptId();
         } catch (Exception e) {
             throw new CustomException(HttpStatus.UNAUTHORIZED, "获取部门ID异常");
         }
