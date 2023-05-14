@@ -3,7 +3,9 @@ package com.ecjtu.web.controller.system;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ecjtu.common.constant.UserConstants;
 import com.ecjtu.common.utils.ApiResult;
+import com.ecjtu.common.utils.RedisCache;
 import com.ecjtu.common.utils.SecurityUtil;
 import com.ecjtu.domain.PageInfo;
 import com.ecjtu.domain.entity.SysUser;
@@ -11,8 +13,6 @@ import com.ecjtu.domain.model.SysUserQuery;
 import com.ecjtu.service.SysDeptService;
 import com.ecjtu.service.SysRoleService;
 import com.ecjtu.service.SysUserService;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -37,35 +37,19 @@ public class SysUserController {
     @Autowired
     private SysDeptService deptService;
 
+    @Autowired
+    private RedisCache redisCache;
+
     /**
      * 分页查询用户
      * @param pageInfo 分页条件
      * @return 数据
      */
-    @PostMapping("/list")
-    public ApiResult queryPageList(PageInfo<SysUserQuery> pageInfo) {
-        LambdaQueryWrapper<SysUser> wrapper = new LambdaQueryWrapper<>();
-        SysUserQuery entity = pageInfo.getEntity();
-
-        if (ObjectUtils.isNotEmpty(pageInfo)) {
-            if (StringUtils.isNotBlank(entity.getUsername())) {
-                wrapper.eq(SysUser::getUsername, entity.getUsername());
-            }
-            if (StringUtils.isNotBlank(entity.getPhone())) {
-                wrapper.eq(SysUser::getPhone, entity.getPhone());
-            }
-            if (StringUtils.isNotBlank(entity.getStatus())) {
-                wrapper.eq(SysUser::getStatus, entity.getStatus());
-            }
-            if (ObjectUtils.isNotEmpty(entity.getBeginTime())) {
-                wrapper.ge(SysUser::getCreateTime, entity.getBeginTime());
-            }
-            if (ObjectUtils.isNotEmpty(entity.getEndTime())) {
-                wrapper.le(SysUser::getCreateTime, entity.getEndTime());
-            }
-        }
+    @PostMapping("/page")
+    public ApiResult queryPageList(@RequestBody PageInfo<SysUserQuery> pageInfo) {
+        System.out.println(pageInfo.getPageNum());
         IPage<SysUser> page = new Page<>(pageInfo.getPageNum(), pageInfo.getPageSize());
-        return ApiResult.success(userService.page(page, wrapper));
+        return ApiResult.success(userService.page(page));
     }
 
     /**
@@ -136,4 +120,15 @@ public class SysUserController {
         return userService.removeByIds(userIds) ? ApiResult.success("删除成功") : ApiResult.error("删除失败");
     }
 
+    /**
+     * 获取在线用户列表
+     * @return 在线用户
+     */
+    @PostMapping("/online/page")
+    public ApiResult userOnline(@RequestBody PageInfo<SysUserQuery> query) {
+        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysUser::getOnline, UserConstants.ONLINE);
+        Page<SysUser> page = new Page<>(query.getPageNum(), query.getPageSize());
+        return ApiResult.success(userService.page(page, queryWrapper));
+    }
 }

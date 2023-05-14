@@ -34,7 +34,7 @@ public class SysDictTypeController {
      * @param query 条件
      * @return 分页结果
      */
-    @GetMapping("/list")
+    @PostMapping("/page")
     public ApiResult queryPageList(@RequestBody PageInfo<SysDictTypeQuery> query) {
         LambdaQueryWrapper<SysDictType> wrapper = new LambdaQueryWrapper<>();
         SysDictTypeQuery queryEntity = query.getEntity();
@@ -47,12 +47,6 @@ public class SysDictTypeController {
             }
             if (StringUtils.isNotBlank(queryEntity.getDictType())) {
                 wrapper.eq(SysDictType::getDictType, queryEntity.getDictType());
-            }
-            if (ObjectUtils.isNotEmpty(queryEntity.getBeginTime())) {
-                wrapper.ge(SysDictType::getCreateTime, queryEntity.getBeginTime());
-            }
-            if (ObjectUtils.isNotEmpty(queryEntity.getEndTime())) {
-                wrapper.le(SysDictType::getCreateTime, queryEntity.getEndTime());
             }
         }
         IPage<SysDictType> page = new Page<>(query.getPageNum(), query.getPageSize());

@@ -34,7 +34,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         HashSet<String> permsSet = new HashSet<>();
         for (SysRole sysRole : sysRoles) {
             if (sysRole != null) {
-                permsSet.addAll(Arrays.asList(sysRole.getRoleKey().trim().split(",")));
+                permsSet.addAll(Arrays.asList(sysRole.getRolePerm().trim().split(",")));
             }
         }
         return permsSet;

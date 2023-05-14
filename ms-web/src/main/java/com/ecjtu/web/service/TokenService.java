@@ -45,7 +45,7 @@ public class TokenService {
      * 令牌标识
      */
     private String header;
-    private static final long MILLIS_MIN = 20 * 60 * 1000L;
+    private static final long MILLIS_MIN = 24 * 60 * 60 * 1000L;
 
     @Autowired
     private RedisCache redisCache;

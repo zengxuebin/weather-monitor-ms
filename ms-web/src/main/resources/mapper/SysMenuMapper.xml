@@ -5,12 +5,6 @@
 
 <mapper namespace="com.ecjtu.mapper.SysMenuMapper">
 
-    <sql id="selectMenuVo">
-        select menu_id, menu_name, parent_id, order_num, path, component, menu_type,
-               visible, status, perms, icon, create_time
-        from sys_menu
-    </sql>
-
     <select id="selectMenuPermsByUserId" parameterType="Long" resultType="String">
         select distinct m.perms
         from sys_menu m

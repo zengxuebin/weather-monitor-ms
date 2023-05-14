@@ -31,8 +31,8 @@ config:
   jwt:
     # 加密密钥
     secret: emVuZ3h1ZWJpbiBmYWxsIGluIGxvdmUgbHVveXVoYW8=
-    # token 有效时长(默认一小时)
-    expire: 3600000
+    # token 有效时长(默认24小时)
+    expire: 86400000
     # header名称
     header: Authorization
 

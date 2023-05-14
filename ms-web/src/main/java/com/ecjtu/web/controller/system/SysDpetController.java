@@ -29,7 +29,7 @@ public class SysDpetController {
     @Autowired
     private SysDeptService deptService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public ApiResult queryPageList(@RequestBody PageInfo<SysDeptQuery> query) {
         LambdaQueryWrapper<SysDept> wrapper = new LambdaQueryWrapper<>();
         SysDeptQuery queryEntity = query.getEntity();

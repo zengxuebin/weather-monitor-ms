@@ -40,7 +40,7 @@ public class SysDictDataController {
      * @return 结果集
      */
 //    @PreAuthorize("@permissionService.hasPermission('system:dict:list')")
-    @GetMapping("/list")
+    @PostMapping("/page")
     public ApiResult queryPageList(@RequestBody PageInfo<SysDictDataQuery> query) {
         LambdaQueryWrapper<SysDictData> wrapper = new LambdaQueryWrapper<>();
         SysDictDataQuery queryEntity = query.getEntity();
@@ -52,10 +52,22 @@ public class SysDictDataController {
                 wrapper.eq(SysDictData::getDictLabel, queryEntity.getDictLabel());
             }
         }
-
         IPage<SysDictData> page = new Page<>(query.getPageNum(), query.getPageSize());
         wrapper.orderByAsc(SysDictData::getOrderNum);
         return ApiResult.success(dictDataService.page(page, wrapper));
+    }
+
+    /**
+     * 获取字典键值列表
+     * @param dictType 字典类型
+     * @return 键值列表
+     */
+    @GetMapping("/list/{dictType}")
+    public ApiResult getDictDataByDictType(@PathVariable String dictType) {
+        LambdaQueryWrapper<SysDictData> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysDictData::getDictType, dictType);
+        List<SysDictData> dictDataList = dictDataService.list(queryWrapper);
+        return ApiResult.success(dictDataList);
     }
 
     /**

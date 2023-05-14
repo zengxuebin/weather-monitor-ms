@@ -4,12 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @Description: 用户分页查询条件
+ * @Description: 角色查询条件
  * @Author: ZengXueBin
- * @Date: 2023/4/9 16:34
+ * @Date: 2023/5/14 21:56
  */
 @Getter
 @Setter
-public class SysUserQuery {
-
+public class SysRoleQuery {
 }

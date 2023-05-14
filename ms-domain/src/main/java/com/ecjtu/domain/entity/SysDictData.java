@@ -43,5 +43,9 @@ public class SysDictData extends BaseEntity {
      * 状态
      */
     private String status;
+    /**
+     * 是否默认
+     */
+    private String isDefault;
 
 }

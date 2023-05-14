@@ -14,7 +14,6 @@ import java.io.Serializable;
 @Setter
 public class PageInfo<T> implements Serializable {
 
-    private T entity;
     /**
      * 分页查询的页数
      */
@@ -23,5 +22,9 @@ public class PageInfo<T> implements Serializable {
      * 分页查询的条数
      */
     private Integer pageSize;
+    /**
+     * 查询条件
+     */
+    private T entity;
 
 }

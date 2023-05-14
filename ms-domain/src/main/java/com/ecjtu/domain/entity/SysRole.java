@@ -30,7 +30,7 @@ public class SysRole extends BaseEntity {
      * 角色字符串
      *
      */
-    private String roleKey;
+    private String rolePerm;
     /**
      * 角色状态 0正常 1停用
      */
@@ -40,16 +40,6 @@ public class SysRole extends BaseEntity {
      */
     private String delFlag;
     /**
-     * 菜单组
-     */
-    @TableField(exist = false)
-    private Long[] menuIds;
-    /**
-     * 部门组
-     */
-    @TableField(exist = false)
-    private Long[] deptIds;
-    /**
      * 角色菜单权限
      */
     @TableField(exist = false)
@@ -58,4 +48,8 @@ public class SysRole extends BaseEntity {
      * 显示顺序
      */
     private Integer orderNum;
+    /**
+     * 备注
+     */
+    private String remark;
 }

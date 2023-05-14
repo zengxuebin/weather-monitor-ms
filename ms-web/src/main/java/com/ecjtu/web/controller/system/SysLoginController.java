@@ -71,6 +71,7 @@ public class SysLoginController {
         LoginUser loginUser = SecurityUtil.getLoginUser();
         String token = loginUser.getToken();
         redisCache.deleteObject(RedisKeyUtil.getTokenKey(token));
+
         return ApiResult.success("退出成功");
     }
 

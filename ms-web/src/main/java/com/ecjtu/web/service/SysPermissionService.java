@@ -1,7 +1,5 @@
 package com.ecjtu.web.service;
 
-import com.ecjtu.domain.entity.SysMenu;
-import com.ecjtu.domain.entity.SysRole;
 import com.ecjtu.domain.entity.SysUser;
 import com.ecjtu.service.SysMenuService;
 import com.ecjtu.service.SysRoleService;
@@ -9,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -52,16 +49,7 @@ public class SysPermissionService {
         if (sysUser.isAdmin()) {
             roleMenus.add("*:*");
         } else {
-            List<SysRole> roles = sysUser.getRoles();
-            if (!roles.isEmpty() && roles.size() > 1) {
-                for (SysRole role : roles) {
-                    Set<String> menuPerms = menuService.selectMenuPermsByRoleId(role.getRoleId());
-                    role.setPermissions(menuPerms);
-                    roleMenus.addAll(menuPerms);
-                }
-            } else {
-                roleMenus.addAll(menuService.selectMenuPermsByUserId(sysUser.getUserId()));
-            }
+            roleMenus.addAll(menuService.selectMenuPermsByUserId(sysUser.getUserId()));
         }
         return roleMenus;
     }

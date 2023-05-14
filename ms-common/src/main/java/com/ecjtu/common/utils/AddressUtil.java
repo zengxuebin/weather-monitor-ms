@@ -27,7 +27,7 @@ public class AddressUtil {
         try {
             result = restTemplate.getForObject(IP_URL, String.class);
         } catch (Exception e) {
-            result = "{IPCallBack({\"ip\":\"183.217.208.143\",\"pro\":\"江西省\",\"proCode\":\"360000\",\"city\":\"赣州市\",\"cityCode\":\"360700\",\"region\":\"\",\"regionCode\":\"0\",\"addr\":\"江西省赣州市 移通\",\"regionNames\":\"\",\"err\":\"\"});}";
+            result = "{\"ip\":\"39.144.168.43\",\"pro\":\"江西省\",\"proCode\":\"360000\",\"city\":\"南昌市\",\"cityCode\":\"360100\",\"region\":\"\",\"regionCode\":\"0\",\"addr\":\"江西省南昌市 \",\"regionNames\":\"\",\"err\":\"\"}";
         }
         assert result != null;
         int prefixIndex = result.indexOf("{", result.indexOf("{") + 1);

@@ -1,15 +1,17 @@
 package com.ecjtu.web.controller.system;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ecjtu.common.utils.ApiResult;
 import com.ecjtu.common.utils.SecurityUtil;
+import com.ecjtu.domain.PageInfo;
 import com.ecjtu.domain.entity.SysMenu;
+import com.ecjtu.domain.model.SysMenuQuery;
 import com.ecjtu.service.SysMenuService;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,6 +26,30 @@ public class SysMenuController {
 
     @Autowired
     private SysMenuService menuService;
+
+    /**
+     * 分页查询菜单
+     * @param query 查询条件
+     * @return 菜单列表
+     */
+    @PostMapping("/page")
+    public ApiResult queryPageList(@RequestBody PageInfo<SysMenuQuery> query) {
+        LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<>();
+        SysMenuQuery entity = query.getEntity();
+        if (ObjectUtils.isNotEmpty(entity)) {
+            if (StringUtils.isNotBlank(entity.getMenuName())) {
+                queryWrapper.like(SysMenu::getMenuName, entity.getMenuName());
+            }
+            if (StringUtils.isNotBlank(entity.getMenuType())) {
+                queryWrapper.eq(SysMenu::getMenuType, entity.getMenuType());
+            }
+            if (StringUtils.isNotBlank(entity.getVisible())) {
+                queryWrapper.eq(SysMenu::getVisible, entity.getVisible());
+            }
+        }
+        Page<SysMenu> page = new Page<>(query.getPageNum(), query.getPageSize());
+        return ApiResult.success(menuService.page(page, queryWrapper));
+    }
 
     /**
      * 获取菜单列表
