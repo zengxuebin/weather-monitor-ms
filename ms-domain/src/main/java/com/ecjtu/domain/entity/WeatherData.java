@@ -47,7 +47,7 @@ public class WeatherData {
     /**
      * 风速
      */
-    private Integer windSpeed;
+    private Float windSpeed;
     /**
      * 风向
      */

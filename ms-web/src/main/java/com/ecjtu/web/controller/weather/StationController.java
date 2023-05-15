@@ -85,4 +85,6 @@ public class StationController {
         List<WeatherStation> stationList = stationService.list(queryWrapper);
         return ApiResult.success(stationList);
     }
+
+
 }

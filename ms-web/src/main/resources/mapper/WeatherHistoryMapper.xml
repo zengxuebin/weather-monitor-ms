@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ecjtu.mapper.WeatherHistoryMapper">
+
+    <select id="statisticsWeatherHistory" resultType="com.ecjtu.domain.DTO.WeatherHistoryDTO">
+        SELECT
+            MAX(temp_max) AS maxTemp,
+            MIN(temp_min) AS minTemp,
+            SUM(precipitation) AS sumPrecipitation,
+            MAX(precipitation) AS maxPrecipitation,
+            MAX(visibility) AS maxVisibility,
+            MAX(wind_speed) AS maxWindSpeed
+        FROM
+            t_weather_history
+        WHERE
+            history_date >= #{startDate} AND
+            history_date <![CDATA[<=]]> #{endDate} AND
+            station_city = #{nowCity}
+    </select>
+
+    <select id="selectTemperatureRange" resultType="com.ecjtu.domain.DTO.TempRangeDTO">
+        SELECT
+            history_date AS historyDate,
+            temp_max AS maxTemp,
+            temp_min AS minTemp
+        FROM
+            t_weather_history
+        WHERE
+            history_date >= #{startDate} AND
+            history_date <![CDATA[<=]]> #{endDate} AND
+            station_city = #{nowCity}
+    </select>
+</mapper>
