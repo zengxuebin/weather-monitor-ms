@@ -1,8 +1,9 @@
 package com.ecjtu.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ecjtu.domain.DTO.StationCountDTO;
+import com.ecjtu.domain.DTO.StationTypeCountDTO;
 import com.ecjtu.domain.entity.WeatherStation;
 import com.ecjtu.mapper.WeatherStationMapper;
 import com.ecjtu.service.WeatherStationService;
@@ -33,6 +34,26 @@ public class WeatherStationServiceImpl extends ServiceImpl<WeatherStationMapper,
         QueryWrapper<WeatherStation> queryWrapper = new QueryWrapper<>();
         queryWrapper.select("DISTINCT station_city");
         return stationMapper.selectMaps(queryWrapper);
+    }
+
+    /**
+     * 获取监测站个数
+     *
+     * @return 监测站个数
+     */
+    @Override
+    public List<StationCountDTO> countStation() {
+        return stationMapper.getCountStation();
+    }
+
+    /**
+     * 统计监测站类型个数
+     *
+     * @return 类型个数
+     */
+    @Override
+    public List<StationTypeCountDTO> countStationType() {
+        return stationMapper.getCountStationType();
     }
 
 }

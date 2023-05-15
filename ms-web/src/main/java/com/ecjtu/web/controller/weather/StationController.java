@@ -3,6 +3,8 @@ package com.ecjtu.web.controller.weather;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ecjtu.common.utils.ApiResult;
+import com.ecjtu.domain.DTO.StationCountDTO;
+import com.ecjtu.domain.DTO.StationTypeCountDTO;
 import com.ecjtu.domain.PageInfo;
 import com.ecjtu.domain.entity.WeatherStation;
 import com.ecjtu.domain.model.WeatherStationQuery;
@@ -86,5 +88,19 @@ public class StationController {
         return ApiResult.success(stationList);
     }
 
-
+    /**
+     * 统计监测站
+     * @return 监测站统计量
+     */
+    @GetMapping("/count")
+    public ApiResult countStation() {
+        // 统计各个城市监测站个数
+        List<StationCountDTO> countDTO = stationService.countStation();
+        // 统计监测站类型个数
+        List<StationTypeCountDTO> typeCountDTO = stationService.countStationType();
+        ApiResult apiResult = ApiResult.success();
+        apiResult.put("cityCount", countDTO);
+        apiResult.put("typeCount", typeCountDTO);
+        return apiResult;
+    }
 }
