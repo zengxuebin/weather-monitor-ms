@@ -1,6 +1,7 @@
 package com.ecjtu.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.ecjtu.domain.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@TableName("t_alert_rule")
 public class AlertRule extends BaseEntity {
 
     /**
@@ -28,17 +30,29 @@ public class AlertRule extends BaseEntity {
      */
     private String ruleName;
     /**
-     * 预警规则类型
+     * 预警监测指标
      */
-    private String ruleType;
+    private String metric;
+    /**
+     * 比较运算符
+     */
+    private String operator;
+    /**
+     * 预警规则阈值
+     */
+    private Float threshold;
+    /**
+     * 预警级别
+     */
+    private String alertLevel;
+    /**
+     * 优先级
+     */
+    private Integer priority;
     /**
      * 预警规则描述
      */
     private String ruleDesc;
-    /**
-     * 预警规则阈值
-     */
-    private Float thresholdValue;
     /**
      * 是否启用
      */
