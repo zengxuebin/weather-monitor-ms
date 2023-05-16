@@ -1,7 +1,8 @@
 package com.ecjtu.domain.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@TableName("t_weather_data")
 public class WeatherData {
 
     /**
@@ -26,11 +28,11 @@ public class WeatherData {
     /**
      * 站点
      */
-    @TableField(exist = false)
-    private WeatherStation station;
+    private Long stationNo;
     /**
      * 数据采集时间
      */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date dataCollectTime;
     /**
      * 温度
@@ -59,11 +61,15 @@ public class WeatherData {
     /**
      * 云量
      */
-    private Integer clouds;
+    private Float clouds;
     /**
      * 能见度
      */
     private Integer visibility;
+    /**
+     * 空气质量描述
+     */
+    private String airQualityDesc;
     /**
      * 空气质量指标数值
      */
@@ -81,7 +87,15 @@ public class WeatherData {
      */
     private Integer no2;
     /**
-     * 臭氧浓度
+     * 二氧化硫
+     */
+    private Integer so2;
+    /**
+     * 臭氧
+     */
+    private Integer o3;
+    /**
+     * 一氧化氮
      */
     private Float co;
     /**
