@@ -1,6 +1,7 @@
 package com.ecjtu.domain.entity;
 
 import com.alibaba.fastjson2.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,10 @@ public class WeatherData {
      */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date dataCollectTime;
+    /**
+     * 天气描述
+     */
+    private String weather;
     /**
      * 温度
      */
@@ -102,5 +107,10 @@ public class WeatherData {
      * 删除标志(0存在 1删除)
      */
     private String delFlag;
+    /**
+     * 舒适度
+     */
+    @TableField(exist = false)
+    private String comfort;
 
 }

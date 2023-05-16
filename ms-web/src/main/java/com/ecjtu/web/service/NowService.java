@@ -3,6 +3,8 @@ package com.ecjtu.web.service;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.ecjtu.domain.entity.WeatherData;
+import com.ecjtu.service.impl.WeatherDataServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,7 +20,7 @@ public class NowService {
      * @param json
      * @return
      */
-    public JSONArray handleNowWeather(String json) {
+    public JSONArray handleTwoHourPrecipitation(String json) {
         JSONObject jsonObject = JSON.parseObject(json);
         JSONArray precipitationArray = jsonObject.getJSONObject("result")
                 .getJSONObject("minutely")
@@ -37,5 +39,16 @@ public class NowService {
         finalResult.add(resultArray);
         finalResult.add(description);
         return finalResult;
+    }
+
+    /**
+     * 处理当天气象数据
+     * @param json 结果
+     * @return 处理结果
+     */
+    public WeatherData handleNowWeather(String json) {
+        JSONObject jsonObject = JSONObject.parseObject(json);
+        WeatherDataServiceImpl weatherDataService = new WeatherDataServiceImpl();
+        return weatherDataService.handleWeatherData(jsonObject);
     }
 }

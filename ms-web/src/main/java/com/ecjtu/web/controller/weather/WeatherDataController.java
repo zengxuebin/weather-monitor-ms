@@ -52,7 +52,7 @@ public class WeatherDataController {
             } catch (Exception ex) {
                 // 处理429错误
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(1500);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -70,7 +70,7 @@ public class WeatherDataController {
     public ApiResult queryPageList(@RequestBody PageInfo<WeatherDataQuery> query) {
         LambdaQueryWrapper<WeatherData> queryWrapper = new LambdaQueryWrapper<>();
         WeatherDataQuery entity = query.getEntity();
-        if (ObjectUtils.isNotEmpty(entity)) {
+        if (ObjectUtils.isNotEmpty(entity.getStationNo())) {
             if (ObjectUtils.isNotEmpty(entity.getStationNo())) {
                 queryWrapper.eq(WeatherData::getStationNo, entity.getStationNo());
             }

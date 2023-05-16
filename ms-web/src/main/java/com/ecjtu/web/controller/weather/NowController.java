@@ -2,6 +2,7 @@ package com.ecjtu.web.controller.weather;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.ecjtu.common.utils.ApiResult;
+import com.ecjtu.domain.entity.WeatherData;
 import com.ecjtu.web.service.NowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,10 +35,14 @@ public class NowController {
         json = restTemplate.getForObject(
                 "https://api.caiyunapp.com/v2.6/TAkhjf8d1nlSlspN/" + location + "/minutely",
                 String.class);
-        JSONArray jsonArray = nowService.handleNowWeather(json);
+        JSONArray jsonArray = nowService.handleTwoHourPrecipitation(json);
         ApiResult apiResult = ApiResult.success();
         apiResult.put("precipitation", jsonArray.get(0));
         apiResult.put("desc", jsonArray.get(1));
+        json = restTemplate.getForObject("https://api.caiyunapp.com/v2.6/TAkhjf8d1nlSlspN/" + location + "/realtime",
+                String.class);
+        WeatherData weatherData =  nowService.handleNowWeather(json);
+        apiResult.put("weatherNow", weatherData);
         return apiResult;
     }
 }

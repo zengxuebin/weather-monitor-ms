@@ -31,20 +31,26 @@ public class WeatherDataServiceImpl extends ServiceImpl<WeatherDataMapper, Weath
     @Override
     public void saveWeatherDataToDatabase(Long stationNo, String json) {
         JSONObject jsonObject = JSONObject.parseObject(json);
+        WeatherData weatherData = handleWeatherData(jsonObject);
+        weatherData.setStationNo(stationNo);
+        weatherDataMapper.insert(weatherData);
+    }
+
+    public WeatherData handleWeatherData(JSONObject jsonObject) {
         JSONObject realtime = jsonObject.getJSONObject("result").getJSONObject("realtime");
         JSONObject airQuality = realtime.getJSONObject("air_quality");
 
         // 构建WeatherData对象
         WeatherData weatherData = new WeatherData();
-        weatherData.setStationNo(stationNo);
         weatherData.setDataCollectTime(new Date());
         weatherData.setTemperature(realtime.getFloat("temperature"));
+        weatherData.setWeather(realtime.getString("skycon"));
         weatherData.setHumidity(realtime.getFloat("humidity"));
         weatherData.setPressure(realtime.getFloat("pressure"));
         weatherData.setWindSpeed(realtime.getJSONObject("wind")
                 .getFloat("speed"));
         weatherData.setWindDirection(realtime.getJSONObject("wind")
-                .getInteger("direction") % 2);
+                .getInteger("direction") % 7);
         weatherData.setPrecipitation(realtime.getJSONObject("precipitation").
                 getJSONObject("local")
                 .getFloat("intensity"));
@@ -62,7 +68,9 @@ public class WeatherDataServiceImpl extends ServiceImpl<WeatherDataMapper, Weath
         weatherData.setSo2(airQuality.getInteger("so2"));
         weatherData.setO3(airQuality.getInteger("o3"));
         weatherData.setCo(airQuality.getFloat("co"));
-
-        weatherDataMapper.insert(weatherData);
+        weatherData.setComfort(realtime.getJSONObject("life_index")
+                .getJSONObject("comfort")
+                .getString("desc"));
+        return weatherData;
     }
 }
