@@ -1,8 +1,8 @@
 package com.ecjtu.web.controller.weather;
 
+import com.alibaba.fastjson2.JSONArray;
 import com.ecjtu.common.utils.ApiResult;
-import com.ecjtu.domain.DTO.ForecastWeatherDTO;
-import com.ecjtu.web.service.ForeCastService;
+import com.ecjtu.web.service.NowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,33 +10,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
-
 /**
- * @Description: 预报
+ * @Description: 目前天气
  * @Author: ZengXueBin
- * @Date: 2023/5/15 20:29
+ * @Date: 2023/5/16 08:25
  */
 @RestController
-@RequestMapping("/forecast")
-public class ForecastController {
+@RequestMapping("/now")
+public class NowController {
 
     @Autowired
-    private ForeCastService foreCastService;
+    private NowService nowService;
 
     /**
-     * 获取天气预报
+     * 获取目前天气
      * @param location 经纬度
      * @return 结果
      */
     @GetMapping("/{location}")
-    public ApiResult getForecastWeather(@PathVariable String location) {
+    public ApiResult getNowWeather(@PathVariable String location) {
         RestTemplate restTemplate = new RestTemplate();
-        String json  = "";
+        String json = "";
         json = restTemplate.getForObject(
-                "https://api.caiyunapp.com/v2.6/TAkhjf8d1nlSlspN/" + location + "/hourly?hourlysteps=192",
+                "https://api.caiyunapp.com/v2.6/TAkhjf8d1nlSlspN/" + location + "/minutely",
                 String.class);
-        List<ForecastWeatherDTO> forecastList = foreCastService.handleForecast(json);
-        return ApiResult.success(forecastList);
+        JSONArray jsonArray = nowService.handleNowWeather(json);
+        ApiResult apiResult = ApiResult.success();
+        apiResult.put("precipitation", jsonArray.get(0));
+        apiResult.put("desc", jsonArray.get(1));
+        return apiResult;
     }
 }
