@@ -85,24 +85,19 @@ public class AlertReleaseController {
         dataLambdaQueryWrapper.eq(WeatherData::getIsHandled, "1");
         dataLambdaQueryWrapper.apply("DATE(data_collect_time) = DATE({0})", today);
         List<WeatherData> weatherDataList = weatherDataService.list(dataLambdaQueryWrapper);
-        for (WeatherData weatherData : weatherDataList) {
-            System.out.println(weatherData);
-        }
 
         alertService.processWeatherData(weatherDataList);
 
         // 标记为已处理
         ArrayList<WeatherData> updatedList = new ArrayList<>();
-        for (WeatherData weatherData : weatherDataList) {
-            System.out.println(weatherData);
-        }
+
         for (WeatherData weatherData : weatherDataList) {
             weatherData.setIsHandled("0");
             updatedList.add(weatherData);
         }
         weatherDataService.updateBatchById(updatedList);
 
-        return ApiResult.success(weatherDataList);
+        return ApiResult.success();
     }
 
 }

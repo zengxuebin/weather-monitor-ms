@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * @Description: 预警信息
@@ -57,7 +56,7 @@ public class WeatherAlert {
     /**
      * 预警触发时间
      */
-    private Date triggerTime;
+    private LocalDateTime triggerTime;
     /**
      * 预警开始时间
      */
