@@ -1,7 +1,7 @@
 package com.ecjtu.domain.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@TableName("t_alert_log")
 public class AlertLog {
 
     /**
@@ -26,21 +27,11 @@ public class AlertLog {
     /**
      * 预警信息
      */
-    @TableField(exist = false)
-    private WeatherAlert alert;
-    /**
-     * 预警记录生成时间
-     */
-    private Date alertTime;
-    /**
-     * 是否处理
-     */
-    private String isHandled;
+    private Long alertId;
     /**
      * 处理人
      */
-    @TableField(exist = false)
-    private SysUser handlerUser;
+    private String handlerUser;
     /**
      * 处理时间
      */

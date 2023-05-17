@@ -19,7 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/forecast")
-public class ForecastController {
+public class WeatherForecastController {
 
     @Autowired
     private ForeCastService foreCastService;

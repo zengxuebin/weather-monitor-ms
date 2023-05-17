@@ -18,7 +18,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @RestController
 @RequestMapping("/now")
-public class NowController {
+public class WeatherNowController {
 
     @Autowired
     private NowService nowService;

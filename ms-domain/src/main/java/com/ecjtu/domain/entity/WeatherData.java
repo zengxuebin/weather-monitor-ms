@@ -112,5 +112,9 @@ public class WeatherData {
      */
     @TableField(exist = false)
     private String comfort;
+    /**
+     * 是否 被处理
+     */
+    private String isHandled;
 
 }

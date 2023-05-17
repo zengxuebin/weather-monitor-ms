@@ -24,7 +24,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/station")
-public class StationController {
+public class WeatherStationController {
 
     @Autowired
     private WeatherStationService stationService;

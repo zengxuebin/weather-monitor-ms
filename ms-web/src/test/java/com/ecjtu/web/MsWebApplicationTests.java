@@ -1,6 +1,5 @@
 package com.ecjtu.web;
 
-import com.ecjtu.web.security.SecretUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +22,9 @@ class MsWebApplicationTests {
 
     @Test
     public void testPwd() {
-        String encrypt = SecretUtil.encrypt("123456");
-        System.out.println(SecretUtil.desEncrypt(encrypt));
+        String original = "高温预警-黄色";
+        String[] parts = original.split("-");
+        String modified = parts[1] + parts[0];
+        System.out.println(modified);
     }
 }

@@ -1,11 +1,12 @@
 package com.ecjtu.domain.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -16,6 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@TableName("t_weather_alert")
 public class WeatherAlert {
 
     /**
@@ -28,6 +30,10 @@ public class WeatherAlert {
      */
     private String alertTitle;
     /**
+     * 触发预警的监测值
+     */
+    private Float triggerValue;
+    /**
      * 预警详情信息
      */
     private String alertDesc;
@@ -38,8 +44,7 @@ public class WeatherAlert {
     /**
      * 关联预警规则
      */
-    @TableField(exist = false)
-    private AlertRule alertRule;
+    private Long alertRuleId;
     /**
      * 预警级别
      */
@@ -47,20 +52,20 @@ public class WeatherAlert {
     /**
      * 关联影响区域
      */
-    @TableField(exist = false)
-    private WeatherStation area;
+    private Long alertAreaId;
+
+    /**
+     * 预警触发时间
+     */
+    private Date triggerTime;
     /**
      * 预警开始时间
      */
-    private Date startTime;
+    private LocalDateTime startTime;
     /**
      * 预警结束时间
      */
-    private Date endTime;
-    /**
-     * 预警发布时间
-     */
-    private Date alertTime;
+    private LocalDateTime endTime;
     /**
      * 预警状态
      */

@@ -21,7 +21,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/history")
-public class HistoryController {
+public class WeatherHistoryController {
 
     @Autowired
     private WeatherHistoryService historyService;
