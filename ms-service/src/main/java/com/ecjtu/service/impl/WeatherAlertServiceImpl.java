@@ -54,23 +54,28 @@ public class WeatherAlertServiceImpl extends ServiceImpl<WeatherAlertMapper, Wea
         Map<String, List<AlertRule>> alertRuleGroups = alertRuleList.stream()
                 .collect(Collectors.groupingBy(AlertRule::getMetric));
 
+        // 标记是否已生成预警
+        boolean generatedAlert = false;
+
         for (WeatherData weatherData : weatherDataList) {
             // 遍历每个预警类型的规则组
             for (Map.Entry<String, List<AlertRule>> entry : alertRuleGroups.entrySet()) {
                 List<AlertRule> ruleGroup = entry.getValue();
 
-                // 按照优先级降序排列
-                ruleGroup.sort(Comparator.comparingInt(AlertRule::getPriority).reversed());
+                // 按照优先级升序排列
+                ruleGroup.sort(Comparator.comparingInt(AlertRule::getPriority));
 
                 // 遍历规则组内的规则
                 for (AlertRule alertRule : ruleGroup) {
-                    if (isConditionSatisfied(weatherData, alertRule)) {
-                        // 生成预警
-                        WeatherAlert weatherAlert = generateAlertInfo(weatherData, alertRule);
-                        weatherAlertMapper.insert(weatherAlert);
-                        // 记录日志
-                        recordAlertLog(weatherAlert, AlertResultConstants.SYSTEM_TRIGGERED);
-                        break;
+                    if (isConditionSatisfied(weatherData, alertRule)) {// 生成预警
+                        if (!generatedAlert) {
+                            WeatherAlert weatherAlert = generateAlertInfo(weatherData, alertRule);
+                            weatherAlertMapper.insert(weatherAlert);
+                            // 记录日志
+                            recordAlertLog(weatherAlert, AlertResultConstants.SYSTEM_TRIGGERED);
+                            generatedAlert = true; // 标记已生成预警
+                            break;
+                        }
                     }
                 }
             }
@@ -172,6 +177,7 @@ public class WeatherAlertServiceImpl extends ServiceImpl<WeatherAlertMapper, Wea
 
     /**
      * 处理预警日志的方法
+     *
      * @param weatherAlert 预警
      */
     public void recordAlertLog(WeatherAlert weatherAlert, String handleResult) {
