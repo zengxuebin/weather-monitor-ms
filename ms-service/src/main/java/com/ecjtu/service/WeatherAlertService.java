@@ -17,4 +17,13 @@ public interface WeatherAlertService extends IService<WeatherAlert> {
      * @param weatherDataList 气象数据列表
      */
     void processWeatherData(List<WeatherData> weatherDataList);
+
+    /**
+     * 修改预警信息状态
+     * @param alertIds 待处理预警信息
+     * @param i 预警状态值
+     */
+    void updateAlertStatus(List<Long> alertIds, int i);
+
+    void recordAlertLog(Long alertId, String handleResult);
 }

@@ -10,10 +10,7 @@ import com.ecjtu.service.AlertRuleService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Description: 预警规则
@@ -29,6 +26,7 @@ public class AlertRuleController {
 
     /**
      * 查询预警规则分页信息
+     *
      * @param query 查询条件
      * @return 分页预警规则
      */
@@ -49,6 +47,16 @@ public class AlertRuleController {
         }
 
         Page<AlertRule> page = new Page<>(query.getPageNum(), query.getPageSize());
-        return  ApiResult.success(alertRuleService.page(page, queryWrapper));
+        return ApiResult.success(alertRuleService.page(page, queryWrapper));
+    }
+
+    /**
+     * 预警规则列表
+     *
+     * @return 预警规则
+     */
+    @GetMapping("/list")
+    public ApiResult queryListByRuleId() {
+        return ApiResult.success(alertRuleService.list());
     }
 }

@@ -8,7 +8,9 @@ import com.ecjtu.service.WeatherDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Description: 气象数据 业务实现层
@@ -34,6 +36,17 @@ public class WeatherDataServiceImpl extends ServiceImpl<WeatherDataMapper, Weath
         WeatherData weatherData = handleWeatherData(jsonObject);
         weatherData.setStationNo(stationNo);
         weatherDataMapper.insert(weatherData);
+    }
+
+    /**
+     * 获取今日最新的气象数据
+     *
+     * @param today 今日日期
+     * @return 气象数据
+     */
+    @Override
+    public List<WeatherData> getLatestDataForEachStation(LocalDate today) {
+        return weatherDataMapper.getLatestDataForEachStation(today);
     }
 
     public WeatherData handleWeatherData(JSONObject jsonObject) {

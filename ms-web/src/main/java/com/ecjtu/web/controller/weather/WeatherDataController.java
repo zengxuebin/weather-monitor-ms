@@ -15,9 +15,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @Description: 数据采集
@@ -36,33 +43,70 @@ public class WeatherDataController {
 
     /**
      * 采集气象数据
+     *
      * @return 气象数据列表
      */
     @PostMapping("/collect")
     public ApiResult collectWeatherData() {
         List<WeatherStation> stationList = stationService.list();
         RestTemplate restTemplate = new RestTemplate();
-        String json = "";
+        AtomicReference<String> json = new AtomicReference<>("");
+
+        // 创建线程池，设置最大并发数为3
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+
+        List<Future<?>> futures = new ArrayList<>();
+
         for (WeatherStation station : stationList) {
-            try {
-                String location = station.getStationLongitude() + "," + station.getStationLatitude();
-                json = restTemplate.getForObject("https://api.caiyunapp.com/v2.6/TAkhjf8d1nlSlspN/" + location + "/realtime",
-                        String.class);
-                weatherDataService.saveWeatherDataToDatabase(station.getStationNo(), json);
-            } catch (Exception ex) {
-                // 处理429错误
+            String location = station.getStationLongitude() + "," + station.getStationLatitude();
+
+            Future<?> future = executor.submit(() -> {
                 try {
-                    Thread.sleep(1500);
+                    boolean success = false;
+                    int retryCount = 3;
+                    int retryInterval = 500;
+
+                    for (int i = 0; i < retryCount; i++) {
+                        try {
+                            json.set(restTemplate.getForObject("https://api.caiyunapp.com/v2.6/TAkhjf8d1nlSlspN/" + location + "/realtime",
+                                    String.class));
+                            weatherDataService.saveWeatherDataToDatabase(station.getStationNo(), json.get());
+                            success = true;
+                            break;
+                        } catch (HttpClientErrorException.TooManyRequests ex) {
+                            Thread.sleep(retryInterval);
+                        }
+                    }
+
+                    if (!success) {
+                        throw new RuntimeException("Exceeded retry limit");
+                    }
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+            });
+
+            futures.add(future);
+        }
+
+        // 等待所有任务完成
+        for (Future<?> future : futures) {
+            try {
+                future.get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
             }
         }
-        return ApiResult.success(stationList);
+
+        // 关闭线程池
+        executor.shutdown();
+
+        return ApiResult.success();
     }
 
     /**
      * 分页查询气象数据
+     *
      * @param query 查询条件
      * @return 监测站
      */

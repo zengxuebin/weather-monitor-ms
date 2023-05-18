@@ -85,7 +85,7 @@ public class LoginUser implements UserDetails, Serializable {
 
     @Override
     public String getUsername() {
-        return null;
+        return user.getUsername();
     }
 
     /**

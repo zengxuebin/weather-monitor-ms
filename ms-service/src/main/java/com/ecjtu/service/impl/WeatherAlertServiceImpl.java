@@ -74,13 +74,32 @@ public class WeatherAlertServiceImpl extends ServiceImpl<WeatherAlertMapper, Wea
                             WeatherAlert weatherAlert = generateAlertInfo(weatherData, alertRule);
                             weatherAlertMapper.insert(weatherAlert);
                             // 记录日志
-                            recordAlertLog(weatherAlert, AlertResultConstants.SYSTEM_TRIGGERED);
+                            recordAlertLog(weatherAlert.getAlertId(), AlertResultConstants.SYSTEM_TRIGGERED);
                             break;
                         }
                     }
                 }
             }
         }
+    }
+
+    /**
+     * 修改预警信息状态
+     *
+     * @param alertIds 待处理预警信息
+     * @param i        预警状态值
+     */
+    @Override
+    public void updateAlertStatus(List<Long> alertIds, int i) {
+        if (alertIds.isEmpty()) {
+            return;
+        }
+
+        String alertIdsString = alertIds.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(", "));
+
+        weatherAlertMapper.updateStatusByIds(alertIdsString, i);
     }
 
     /**
@@ -200,12 +219,13 @@ public class WeatherAlertServiceImpl extends ServiceImpl<WeatherAlertMapper, Wea
     /**
      * 处理预警日志的方法
      *
-     * @param weatherAlert 预警
+     * @param alertId 预警ID
+     * @param handleResult 结果
      */
-    public synchronized void recordAlertLog(WeatherAlert weatherAlert, String handleResult) {
-        String username = SecurityUtil.getLoginUser().getUsername();
+    public synchronized void recordAlertLog(Long alertId, String handleResult) {
+        String username = SecurityUtil.getUsername();
         AlertLog alertLog = new AlertLog();
-        alertLog.setAlertId(weatherAlert.getAlertId());
+        alertLog.setAlertId(alertId);
         alertLog.setHandlerUser(username);
         alertLog.setHandleTime(new Date());
         alertLog.setHandleResult(handleResult);

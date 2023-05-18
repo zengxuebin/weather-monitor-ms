@@ -80,11 +80,8 @@ public class AlertReleaseController {
     public ApiResult generateWeatherAlert() {
         LocalDate today = LocalDate.now();
 
-        // 气象数据
-        LambdaQueryWrapper<WeatherData> dataLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        dataLambdaQueryWrapper.eq(WeatherData::getIsHandled, "1");
-        dataLambdaQueryWrapper.apply("DATE(data_collect_time) = DATE({0})", today);
-        List<WeatherData> weatherDataList = weatherDataService.list(dataLambdaQueryWrapper);
+        // 今日最新气象数据
+        List<WeatherData> weatherDataList = weatherDataService.getLatestDataForEachStation(today);
 
         alertService.processWeatherData(weatherDataList);
 
@@ -97,7 +94,7 @@ public class AlertReleaseController {
         }
         weatherDataService.updateBatchById(updatedList);
 
-        return ApiResult.success();
+        return ApiResult.success(weatherDataList);
     }
 
 }

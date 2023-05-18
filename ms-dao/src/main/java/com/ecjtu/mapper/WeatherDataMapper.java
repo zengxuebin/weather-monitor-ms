@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ecjtu.domain.entity.WeatherData;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.time.LocalDate;
+import java.util.List;
+
 /**
  * @Description: 气象数据 mapper层
  * @Author: ZengXueBin
@@ -11,4 +14,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface WeatherDataMapper extends BaseMapper<WeatherData> {
+    List<WeatherData> getLatestDataForEachStation(LocalDate today);
 }
