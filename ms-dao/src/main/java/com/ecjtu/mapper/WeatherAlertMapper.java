@@ -18,5 +18,5 @@ public interface WeatherAlertMapper extends BaseMapper<WeatherAlert> {
      * @param status 修改后的状态
      */
     void updateStatusByIds(@Param("alertIdsString") String alertIdsString,
-                           @Param("status") int status);
+                           @Param("status") String status);
 }

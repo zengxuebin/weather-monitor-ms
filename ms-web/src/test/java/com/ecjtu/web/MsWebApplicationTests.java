@@ -1,6 +1,9 @@
 package com.ecjtu.web;
 
+import com.ecjtu.domain.model.Mail;
+import com.ecjtu.service.AlertPushService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.client.RestTemplate;
@@ -19,12 +22,15 @@ class MsWebApplicationTests {
         System.out.println(o);
     }
 
+    @Autowired
+    private AlertPushService alertPushService;
 
     @Test
     public void testPwd() {
-        String original = "高温预警-黄色";
-        String[] parts = original.split("-");
-        String modified = parts[1] + parts[0];
-        System.out.println(modified);
+        Mail mail = new Mail();
+        mail.setTos("zengxb0093@163.com");
+        mail.setSubject("test mail");
+        mail.setContent("this is a test mail");
+        alertPushService.pushAlertByMail(mail);
     }
 }

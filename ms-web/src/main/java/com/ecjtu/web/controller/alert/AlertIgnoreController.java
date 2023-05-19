@@ -1,6 +1,7 @@
 package com.ecjtu.web.controller.alert;
 
 import com.ecjtu.common.constant.AlertResultConstants;
+import com.ecjtu.common.constant.AlertStatusConstants;
 import com.ecjtu.common.utils.ApiResult;
 import com.ecjtu.service.WeatherAlertService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,17 @@ public class AlertIgnoreController {
     @Autowired
     private WeatherAlertService weatherAlertService;
 
+    /**
+     * 忽略预警数据
+     * @param alertIds 预警ID
+     * @return 成功失败
+     */
     @PostMapping("/handle")
     public ApiResult handleAlertIgnore(@RequestBody List<Long> alertIds) {
-        weatherAlertService.updateAlertStatus(alertIds, 1);
+        weatherAlertService.updateAlertStatus(alertIds, AlertStatusConstants.PROCESS_IGNORED_ENDED);
         for (Long alertId : alertIds) {
-            weatherAlertService.recordAlertLog(alertId, AlertResultConstants.PUBLISHED);
+            // 记录日志 已忽略
+            weatherAlertService.recordAlertLog(alertId, AlertResultConstants.IGNORED);
         }
         return ApiResult.success();
     }

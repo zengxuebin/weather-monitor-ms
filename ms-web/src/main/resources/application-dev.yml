@@ -3,17 +3,24 @@ server:
     context-path: /weather-monitor
 
 spring:
+  # mysql
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/db_weather_monitor?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8
     username: root
     password: zeng0093
+  # redis
   data:
     redis:
       host: localhost
       port: 6379
       database: 0
       connect-timeout: 10s
+  # 邮件
+  mail:
+    host: smtp.qq.com
+    username: 1812806483@qq.com
+    password: yjhoofhdvlazejdg
 
 mybatis-plus:
   configuration:
@@ -35,6 +42,12 @@ config:
     expire: 86400000
     # header名称
     header: Authorization
+
+# 阿里云短信
+aliyun:
+  sms:
+    accessKey: LTAI5tMvk6LyTNXCcj36rai7
+    accessSecret: AI8RWzZ97hNf4W5QchpwTvqEKUpmqg
 
 project:
   # 名称

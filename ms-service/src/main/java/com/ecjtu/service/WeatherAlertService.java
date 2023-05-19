@@ -21,9 +21,9 @@ public interface WeatherAlertService extends IService<WeatherAlert> {
     /**
      * 修改预警信息状态
      * @param alertIds 待处理预警信息
-     * @param i 预警状态值
+     * @param status 预警状态值
      */
-    void updateAlertStatus(List<Long> alertIds, int i);
+    void updateAlertStatus(List<Long> alertIds, String  status);
 
     void recordAlertLog(Long alertId, String handleResult);
 }

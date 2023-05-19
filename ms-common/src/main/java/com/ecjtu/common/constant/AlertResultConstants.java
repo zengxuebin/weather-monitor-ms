@@ -6,6 +6,10 @@ package com.ecjtu.common.constant;
  * @Date: 2023/5/17 13:29
  */
 public class AlertResultConstants {
+
+    private AlertResultConstants() {
+    }
+
     /**
      * 已过期
      */
@@ -21,7 +25,7 @@ public class AlertResultConstants {
     /**
      * 已发布
      */
-    public static final String PUBLISHED = "已发布";
+    public static final String RELEASED = "已发布";
     /**
      * 已推送
      */

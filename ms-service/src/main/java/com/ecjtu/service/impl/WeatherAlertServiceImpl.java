@@ -87,10 +87,10 @@ public class WeatherAlertServiceImpl extends ServiceImpl<WeatherAlertMapper, Wea
      * 修改预警信息状态
      *
      * @param alertIds 待处理预警信息
-     * @param i        预警状态值
+     * @param status   预警状态值
      */
     @Override
-    public void updateAlertStatus(List<Long> alertIds, int i) {
+    public void updateAlertStatus(List<Long> alertIds, String status) {
         if (alertIds.isEmpty()) {
             return;
         }
@@ -99,7 +99,7 @@ public class WeatherAlertServiceImpl extends ServiceImpl<WeatherAlertMapper, Wea
                 .map(String::valueOf)
                 .collect(Collectors.joining(", "));
 
-        weatherAlertMapper.updateStatusByIds(alertIdsString, i);
+        weatherAlertMapper.updateStatusByIds(alertIdsString, status);
     }
 
     /**
@@ -219,7 +219,7 @@ public class WeatherAlertServiceImpl extends ServiceImpl<WeatherAlertMapper, Wea
     /**
      * 处理预警日志的方法
      *
-     * @param alertId 预警ID
+     * @param alertId      预警ID
      * @param handleResult 结果
      */
     public synchronized void recordAlertLog(Long alertId, String handleResult) {

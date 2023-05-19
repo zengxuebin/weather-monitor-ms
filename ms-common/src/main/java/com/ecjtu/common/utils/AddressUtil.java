@@ -13,6 +13,9 @@ import java.util.HashMap;
  */
 public class AddressUtil {
 
+    private AddressUtil() {
+    }
+
     /**
      * ip地址查询
      */

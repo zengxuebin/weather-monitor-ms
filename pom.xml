@@ -37,6 +37,7 @@
         <java-jwt.version>4.3.0</java-jwt.version>
         <jjwt.version>0.11.5</jjwt.version>
         <bcprov-jdk18on.version>1.73</bcprov-jdk18on.version>
+        <dysmsapi.version>2.0.23</dysmsapi.version>
     </properties>
 
     <dependencies>

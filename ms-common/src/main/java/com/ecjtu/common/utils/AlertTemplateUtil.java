@@ -9,6 +9,9 @@ import java.util.Map;
  */
 public class AlertTemplateUtil {
 
+    private AlertTemplateUtil() {
+    }
+
     /**
      * 生成预警详情模板
      *

@@ -10,6 +10,8 @@ import java.util.HashMap;
  * @Date: 2023/3/23 15:46
  */
 public class ApiResult extends HashMap<String, Object> {
+
+
     /**
      * 状态码
      */
