@@ -26,4 +26,9 @@ public interface WeatherAlertService extends IService<WeatherAlert> {
     void updateAlertStatus(List<Long> alertIds, String  status);
 
     void recordAlertLog(Long alertId, String handleResult);
+
+    /**
+     * 标记今天之前未处理的数据未已过期
+     */
+    void handleExpiredWeatherData();
 }

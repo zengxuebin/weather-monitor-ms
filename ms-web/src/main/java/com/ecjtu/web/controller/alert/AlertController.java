@@ -2,6 +2,7 @@ package com.ecjtu.web.controller.alert;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ecjtu.common.constant.AlertStatusConstants;
 import com.ecjtu.common.utils.ApiResult;
 import com.ecjtu.domain.PageInfo;
 import com.ecjtu.domain.entity.WeatherAlert;
@@ -10,10 +11,9 @@ import com.ecjtu.service.WeatherAlertService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Description: 预警
@@ -58,5 +58,18 @@ public class AlertController {
 
         Page<WeatherAlert> page = new Page<>(query.getPageNum(), query.getPageSize());
         return ApiResult.success(weatherAlertService.page(page, queryWrapper));
+    }
+
+    /**
+     * 获取已推送的预警数据
+     * @return 已推送
+     */
+    @GetMapping("/pushed/list")
+    public ApiResult getListPushedAlert() {
+        LambdaQueryWrapper<WeatherAlert> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(WeatherAlert::getAlertStatus, AlertStatusConstants.PENDING_CONFIRMATION)
+                .orderByDesc(WeatherAlert::getTriggerTime);
+        List<WeatherAlert> weatherAlerts = weatherAlertService.list(queryWrapper);
+        return ApiResult.success(weatherAlerts);
     }
 }

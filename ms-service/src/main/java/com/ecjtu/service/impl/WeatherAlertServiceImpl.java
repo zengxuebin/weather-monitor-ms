@@ -1,6 +1,7 @@
 package com.ecjtu.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ecjtu.common.constant.AlertResultConstants;
 import com.ecjtu.common.constant.AlertTemplateConstants;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -230,5 +232,26 @@ public class WeatherAlertServiceImpl extends ServiceImpl<WeatherAlertMapper, Wea
         alertLog.setHandleTime(new Date());
         alertLog.setHandleResult(handleResult);
         alertLogMapper.insert(alertLog);
+    }
+
+    /**
+     * 标记今天之前未处理的数据未已过期
+     */
+    @Override
+    public void handleExpiredWeatherData() {
+        LocalDate today = LocalDate.now();
+        LambdaQueryWrapper<WeatherAlert> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.lt(WeatherAlert::getTriggerTime, today.atStartOfDay())
+                .eq(WeatherAlert::getAlertStatus, 0);
+        List<WeatherAlert> weatherAlertList = weatherAlertMapper.selectList(queryWrapper);
+        for (WeatherAlert weatherAlert : weatherAlertList) {
+            recordAlertLog(weatherAlert.getAlertId(), AlertResultConstants.EXPIRED);
+        }
+
+        LambdaUpdateWrapper<WeatherAlert> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.set(WeatherAlert::getAlertStatus, -2)
+                .lt(WeatherAlert::getTriggerTime, today.atStartOfDay())
+                .eq(WeatherAlert::getAlertStatus, 0);
+        weatherAlertMapper.update(null, updateWrapper);
     }
 }

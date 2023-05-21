@@ -26,6 +26,14 @@ public class AliSmsConstants implements InitializingBean {
      */
     public static final String DO_MAIN = "dysmsapi.aliyuncs.com";
     /**
+     * 短信模板
+     */
+    public static final String TEMPLATE_CODE = "SMS_460816151";
+    /**
+     * 签名
+     */
+    public static final String SIGN_NAME = "气象信息智慧监测平台";
+    /**
      * AccessKey ID
      */
     public static String ACCESS_KEY;

@@ -2,7 +2,9 @@ package com.ecjtu.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ecjtu.domain.entity.AlertPush;
-import com.ecjtu.domain.model.Mail;
+import com.ecjtu.domain.entity.SysUser;
+
+import java.util.List;
 
 /**
  * @Description: 预警推送 业务层
@@ -12,8 +14,10 @@ import com.ecjtu.domain.model.Mail;
 public interface AlertPushService extends IService<AlertPush> {
 
     /**
-     * 通过邮件推送预警
-     * @param mail 邮件详情
+     * 推送预警信息
+     *
+     * @param alertIds 预警信息ID
+     * @return 结果
      */
-    void pushAlertByMail(Mail mail);
+    List<SysUser> pushAlert(List<Long> alertIds);
 }

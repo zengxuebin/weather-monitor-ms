@@ -66,7 +66,8 @@ public class AlertReleaseController {
             if (StringUtils.isNotBlank(entity.getAlertAreaId())) {
                 queryWrapper.eq(WeatherAlert::getAlertAreaId, entity.getAlertAreaId());
             }
-            queryWrapper.eq(WeatherAlert::getAlertStatus, AlertStatusConstants.PENDING);
+            queryWrapper.eq(WeatherAlert::getAlertStatus, AlertStatusConstants.PENDING)
+                            .apply("DATE_FORMAT(trigger_time, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')");
             queryWrapper.orderByDesc(WeatherAlert::getTriggerTime);
         }
 
@@ -82,7 +83,8 @@ public class AlertReleaseController {
     public ApiResult generateWeatherAlert() {
         LocalDate today = LocalDate.now();
 
-        // TODO 昨日预警未处理，标记为已过期
+        // 把今天以前未处理的标记为已过期
+        weatherAlertService.handleExpiredWeatherData();
 
         // 今日最新气象数据
         List<WeatherData> weatherDataList = weatherDataService.getLatestDataForEachStation(today);
@@ -96,6 +98,7 @@ public class AlertReleaseController {
             weatherData.setIsHandled("0");
             updatedList.add(weatherData);
         }
+
         weatherDataService.updateBatchById(updatedList);
 
         return ApiResult.success(weatherDataList);
