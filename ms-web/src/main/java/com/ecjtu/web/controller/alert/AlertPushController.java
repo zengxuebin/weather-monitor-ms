@@ -37,12 +37,16 @@ public class AlertPushController {
     private AlertPushService alertPushService;
 
     /**
-     * 查询预警信息（status = '0'）
+     * 查询预警信息（status = '1'）
      * @param query 查询条件
      * @return 结果集
      */
     @PostMapping("/page")
     public ApiResult queryPageList(@RequestBody PageInfo<WeatherAlertQuery> query) {
+
+        // 把今天以前未处理的标记为已过期
+        weatherAlertService.handleExpiredWeatherData(AlertStatusConstants.PENDING_PUSH);
+
         LambdaQueryWrapper<WeatherAlert> queryWrapper = new LambdaQueryWrapper<>();
         WeatherAlertQuery entity = query.getEntity();
         if (ObjectUtils.isNotEmpty(entity)) {

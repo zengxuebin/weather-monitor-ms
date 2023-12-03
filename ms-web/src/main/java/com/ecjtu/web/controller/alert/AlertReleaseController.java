@@ -84,7 +84,7 @@ public class AlertReleaseController {
         LocalDate today = LocalDate.now();
 
         // 把今天以前未处理的标记为已过期
-        weatherAlertService.handleExpiredWeatherData();
+        weatherAlertService.handleExpiredWeatherData(AlertStatusConstants.PENDING);
 
         // 今日最新气象数据
         List<WeatherData> weatherDataList = weatherDataService.getLatestDataForEachStation(today);

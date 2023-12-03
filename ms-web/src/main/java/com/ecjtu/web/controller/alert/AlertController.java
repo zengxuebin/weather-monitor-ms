@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ecjtu.common.constant.AlertStatusConstants;
 import com.ecjtu.common.utils.ApiResult;
 import com.ecjtu.domain.PageInfo;
+import com.ecjtu.domain.entity.AlertLog;
 import com.ecjtu.domain.entity.WeatherAlert;
 import com.ecjtu.domain.model.WeatherAlertQuery;
+import com.ecjtu.service.AlertLogService;
 import com.ecjtu.service.WeatherAlertService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +28,8 @@ public class AlertController {
 
     @Autowired
     private WeatherAlertService weatherAlertService;
+    @Autowired
+    private AlertLogService alertLogService;
 
     @PostMapping("/page")
     public ApiResult queryPageList(@RequestBody PageInfo<WeatherAlertQuery> query) {
@@ -71,5 +75,19 @@ public class AlertController {
                 .orderByDesc(WeatherAlert::getTriggerTime);
         List<WeatherAlert> weatherAlerts = weatherAlertService.list(queryWrapper);
         return ApiResult.success(weatherAlerts);
+    }
+
+    /**
+     * 查询预警日志
+     * @param alertId 预警ID
+     * @return 预警日志
+     */
+    @GetMapping("/log/{alertId}")
+    public ApiResult getAlertLogByAlertId(@PathVariable String alertId) {
+        LambdaQueryWrapper<AlertLog> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(AlertLog::getAlertId, alertId);
+        queryWrapper.orderByAsc(AlertLog::getHandleTime);
+        List<AlertLog> alertLogList = alertLogService.list(queryWrapper);
+        return ApiResult.success(alertLogList);
     }
 }

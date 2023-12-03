@@ -1,6 +1,7 @@
 server:
   servlet:
     context-path: /weather-monitor
+  port: 8080
 
 spring:
   # mysql

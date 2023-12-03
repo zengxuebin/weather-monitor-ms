@@ -236,13 +236,13 @@ public class WeatherAlertServiceImpl extends ServiceImpl<WeatherAlertMapper, Wea
 
     /**
      * 标记今天之前未处理的数据未已过期
+     * @param status 状态
      */
     @Override
-    public void handleExpiredWeatherData() {
+    public void handleExpiredWeatherData(String status) {
         LocalDate today = LocalDate.now();
         LambdaQueryWrapper<WeatherAlert> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.lt(WeatherAlert::getTriggerTime, today.atStartOfDay())
-                .eq(WeatherAlert::getAlertStatus, 0);
+        queryWrapper.lt(WeatherAlert::getTriggerTime, today.atStartOfDay());
         List<WeatherAlert> weatherAlertList = weatherAlertMapper.selectList(queryWrapper);
         for (WeatherAlert weatherAlert : weatherAlertList) {
             recordAlertLog(weatherAlert.getAlertId(), AlertResultConstants.EXPIRED);
@@ -251,7 +251,7 @@ public class WeatherAlertServiceImpl extends ServiceImpl<WeatherAlertMapper, Wea
         LambdaUpdateWrapper<WeatherAlert> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.set(WeatherAlert::getAlertStatus, -2)
                 .lt(WeatherAlert::getTriggerTime, today.atStartOfDay())
-                .eq(WeatherAlert::getAlertStatus, 0);
+                .eq(WeatherAlert::getAlertStatus, status);
         weatherAlertMapper.update(null, updateWrapper);
     }
 }

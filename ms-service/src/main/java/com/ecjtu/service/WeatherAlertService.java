@@ -29,6 +29,7 @@ public interface WeatherAlertService extends IService<WeatherAlert> {
 
     /**
      * 标记今天之前未处理的数据未已过期
+     * @param status 状态
      */
-    void handleExpiredWeatherData();
+    void handleExpiredWeatherData(String status);
 }
